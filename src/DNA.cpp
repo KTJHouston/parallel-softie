@@ -11,10 +11,7 @@ class DNA
 
     public:
 
-    DNA(dna_t dna)
-    {
-        this->dna = dna;
-    }
+    DNA(dna_t dna);
 
     //readable_coat_length
     //readable_stiffness
@@ -31,3 +28,9 @@ class DNA
     private:
 
 };
+
+DNA::DNA(dna_t dna)
+{
+    this->dna = dna;
+}
+
