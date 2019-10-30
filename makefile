@@ -10,7 +10,7 @@ OBJ = $(patsubst %,$(ODIR)/%,$(_OBJ))
 
 CC = g++
 CFLAGS = -I$(IDIR)
-EXE = runable..out
+EXE = runable.out
 
 $(ODIR)/%.o: $(SOURCE)/%.cpp $(DEPS) 
 	$(CC) -c -o $@ $< $(CFLAGS) 
