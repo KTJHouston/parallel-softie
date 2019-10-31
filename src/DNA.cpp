@@ -18,14 +18,22 @@ of length 10.2 inches. 11001000 corresponds to 8 inches.
 */
 string DNA::readable_coat_length()
 {
+    //snip dna segment:
     int length_bits = 0xff & (dna >> 56);
+
+    //convert dna segment to length in inches:
     float bits_to_inches_ratio = 10.2 / 255;
     float length_inches = length_bits * bits_to_inches_ratio;
     
+    //get binary representation of dna segment:
     string binary_rep = get_binary_representation(length_bits, 8);
+
+    //limit precision of length in inches:
     stringstream ss;
     ss << setprecision(4) << length_inches;
     string inches_rep = ss.str();
+
+    //build output string:
     string output = "[" + binary_rep + "] " + inches_rep + " in. coat";
     return output;
 }
@@ -39,10 +47,14 @@ extremely soft. And, 111111 is ultimate sitffness.
 */
 string DNA::readable_stiffness()
 {
+    //snip dna segment:
     int stiffness = 0x3f & (dna >> 50);
     
+    //get binary representation of dna segment:
     string binary_rep = get_binary_representation(stiffness, 6);
     string output = "[" + binary_rep + "] ";
+
+    //get stiffness description:
     if ( stiffness == 0 )
     {
         output += "Ultimate softness";
