@@ -1,6 +1,8 @@
 #include <iostream>
 #include <string>
 #include <string.h>
+#include <sstream>
+#include <iomanip>
 
 using namespace std;
 

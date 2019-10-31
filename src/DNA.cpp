@@ -14,16 +14,20 @@ readable_coat_length
 
 Coat length is determined by first (most significant) 8 bits
 in the dna sequence. 00000000 is hairless. 11111111 is a coat 
-of length 10.2 inches. 
+of length 10.2 inches. 11001000 corresponds to 8 inches. 
 */
 string DNA::readable_coat_length()
 {
     int length_bits = 0xff & (dna >> 56);
-    float bits_to_inches_ratio = 10.2 * 255;
+    float bits_to_inches_ratio = 10.2 / 255;
     float length_inches = length_bits * bits_to_inches_ratio;
     
     string binary_rep = get_binary_representation(length_bits, 8);
-    return binary_rep;
+    stringstream ss;
+    ss << setprecision(4) << length_inches;
+    string inches_rep = ss.str();
+    string output = "[" + binary_rep + "] " + inches_rep + " in. coat";
+    return output;
 }
 
 /////////////////////////////////////////////////////////////////
