@@ -66,6 +66,65 @@ string DNA::readable_stiffness()
     return output;
 }
 
+/*
+readable_background_color
+
+Background color is determined by 6 bits (bits 44 through 49). 
+The most significant 3 bits are for brightness. And least 
+significant 3 bits determine color. 
+
+Brightness: 000 is bright. 111 is dark. 
+Color: 
+000 - White
+001 - Brown
+Else - Other
+*/
+string DNA::readable_background_color()
+{
+    //snip dna segment:
+    int brightness = 0x7 & (dna >> 47);
+    int color = 0x7 & (dna >> 44);
+    
+    //get binary representation of dna segment:
+    string binary_rep_brightness = get_binary_representation(brightness, 3);
+    string binary_rep_color = get_binary_representation(color, 3);
+    string output = "[" + binary_rep_brightness + " " + binary_rep_color + "] ";
+    
+    // Get brightness description:
+    if ( brightness == 0 )
+    {
+        output += "Very bright ";
+    }
+    else if ( brightness == 7 )
+    {
+        output += "Very dark ";
+    }
+    else if ( brightness <= 3 )
+    {
+        output += "Bright ";
+    }
+    else if ( brightness >= 4 )
+    {
+        output += "Dark ";
+    }
+
+    // Get color description:
+    if ( color == 0 )
+    {
+        output += "white";
+    }
+    else if ( color == 1 )
+    {
+        output += "brown";
+    }
+    else
+    {
+        output += "other";
+    }
+    
+    return output;
+}
+
 /////////////////////////////////////////////////////////////////
 // PRIVATE
 /////////////////////////////////////////////////////////////////

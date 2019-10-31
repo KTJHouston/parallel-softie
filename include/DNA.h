@@ -19,7 +19,7 @@ class DNA
 
     string readable_coat_length();
     string readable_stiffness();
-    //readable_background_color
+    string readable_background_color();
     //readable_foreground_color
     //readable_paw_and_tail
     //readable_tail_leangth_and_shape
