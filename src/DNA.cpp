@@ -138,6 +138,16 @@ string DNA::readable_background_color()
     return output;
 }
 
+string DNA::to_string(DNA d)
+{
+    string output = "";
+    output += d.readable_coat_length() + "\n";
+    output += d.readable_stiffness() + "\n";
+    output += d.readable_background_color();
+    //TODO add other "readable" lines
+    return output;
+}
+
 /////////////////////////////////////////////////////////////////
 // PRIVATE
 /////////////////////////////////////////////////////////////////
