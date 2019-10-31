@@ -18,7 +18,7 @@ class DNA
     DNA(dna_t dna);
 
     string readable_coat_length();
-    //readable_stiffness
+    string readable_stiffness();
     //readable_background_color
     //readable_foreground_color
     //readable_paw_and_tail

@@ -30,6 +30,42 @@ string DNA::readable_coat_length()
     return output;
 }
 
+/*
+readable_stiffness
+
+Stiffness is determined by 6 bits (bits 50 through 55). 
+000000 corresponds to the ultimate in softness. 000111 is 
+extremely soft. And, 111111 is ultimate sitffness. 
+*/
+string DNA::readable_stiffness()
+{
+    int stiffness = 0x3f & (dna >> 50);
+    
+    string binary_rep = get_binary_representation(stiffness, 6);
+    string output = "[" + binary_rep + "] ";
+    if ( stiffness == 0 )
+    {
+        output += "Ultimate softness";
+    }
+    else if ( stiffness < 8 )
+    {
+        output += "Extremely soft";
+    }
+    else if ( stiffness == 0x3f )
+    {
+        output += "Ultimate stiff";
+    }
+    else if ( stiffness > 0x38 )
+    {
+        output += "Extremely stiff";
+    }
+    else 
+    {
+        output += "More stiff than desirable";
+    }
+    return output;
+}
+
 /////////////////////////////////////////////////////////////////
 // PRIVATE
 /////////////////////////////////////////////////////////////////
