@@ -100,7 +100,8 @@ string DNA::readable_background_color()
     //get binary representation of dna segment:
     string binary_rep_brightness = get_binary_representation(brightness, 3);
     string binary_rep_color = get_binary_representation(color, 3);
-    string output = "[" + binary_rep_brightness + " " + binary_rep_color + "] ";
+    string output = "[" + binary_rep_brightness + " " + binary_rep_color 
+        + "] Background color is ";
     
     // Get brightness description:
     if ( brightness == 0 )
