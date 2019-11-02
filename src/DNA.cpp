@@ -106,19 +106,19 @@ string DNA::readable_background_color()
     // Get brightness description:
     if ( brightness == 0 )
     {
-        output += "Very bright ";
+        output += "very bright ";
     }
     else if ( brightness == 7 )
     {
-        output += "Very dark ";
+        output += "very dark ";
     }
     else if ( brightness <= 3 )
     {
-        output += "Bright ";
+        output += "bright ";
     }
     else if ( brightness >= 4 )
     {
-        output += "Dark ";
+        output += "bark ";
     }
 
     // Get color description:
@@ -163,20 +163,20 @@ string DNA::readable_foreground_color(){
     string binary_rep_brightness = get_binary_representation(brightness, 3);
     string binary_rep_color = get_binary_representation(color, 3);
     string output = "[" + binary_rep_brightness + " " + binary_rep_color 
-        + "] Background color is ";
+        + "] Foreground color is ";
     
     // Get brightness description:
     if ( brightness == 0 ){
-        output += "Very bright ";
+        output += "very bright ";
     }
     else if ( brightness == 7 ){
-        output += "Very dark ";
+        output += "very dark ";
     }
     else if ( brightness <= 3 ){
-        output += "Bright ";
+        output += "bright ";
     }
     else if ( brightness >= 4 ){
-        output += "Dark ";
+        output += "dark ";
     }
 
     // Get color description:
@@ -207,7 +207,8 @@ string DNA::to_string(DNA d)
     string output = "";
     output += d.readable_coat_length() + "\n";
     output += d.readable_stiffness() + "\n";
-    output += d.readable_background_color();
+    output += d.readable_background_color() + "\n";
+    output += d.readable_foreground_color();
     //TODO add other "readable" lines
     return output;
 }
