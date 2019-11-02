@@ -186,7 +186,3 @@ string DNA::get_binary_representation(int value, int bit_count)
 
     return output;
 }
-
-int main() {
-    return 0;
-}

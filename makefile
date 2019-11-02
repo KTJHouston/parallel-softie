@@ -1,20 +1,25 @@
-CC = g++
-CFLAGS = -I ./include
-EXE = softie.exe
-OBJECT = DNA.o 
+IDIR = ./include
+_DEPS = DNA.h
+DEPS = $(patsubst %,$(IDIR)/%,$(_DEPS))
+
 SOURCE = ./src
-INCLUDE = ./include
 
-all: $(EXE)
+ODIR = ./obj
+_OBJ = test.o DNA.o
+OBJ = $(patsubst %,$(ODIR)/%,$(_OBJ))
 
-$(EXE): $(OBJECT) 
-	$(CC) -o $@ $< $(CFLAGS) 
+CC = g++
+CFLAGS = -I$(IDIR)
+EXE = softie.exe
 
-$(OBJECT): $(SOURCE)/DNA.cpp $(INCLUDE)/DNA.h
-	$(CC) -c $(SOURCE)/DNA.cpp $< $(CFLAGS)
+$(ODIR)/%.o: $(SOURCE)/%.cpp $(DEPS) 
+	$(CC) -c -o $@ $< $(CFLAGS) 
+
+$(EXE): $(OBJ) 
+	$(CC) -o $@ $^ $(CFLAGS) 
 
 test:
 	./$(EXE)
 
 clean:
-	rm -rf *.o *.exe 
+	rm -f $(ODIR)/*.o *.out $(EXE)
