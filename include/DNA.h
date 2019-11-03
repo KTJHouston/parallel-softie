@@ -25,7 +25,7 @@ class DNA {
     //readable_weight
     //readable_pawprint_area
     //readable_webbing
-    //readbale_temper
+    string readable_temper();
     static string to_string(DNA d);
 
     private:

@@ -186,13 +186,52 @@ string DNA::readable_foreground_color() {
     return output;
 }
 
+/*
+readable_temper
+
+Stiffness is determined by 6 bits (bits 5 through 0). 
+000000 corresponds to the ultimate in mild-termpered-disposition. 
+000100 is extremely mild tempered. And, 111111 is "meaner than a 
+junkyard dog" - the ultimate in non-mild-temperedness. 
+
+The largest number still considered extremely mild tempered will 
+be 000111 as to match stiffness. 
+*/
+string DNA::readable_temper() {
+    //snip dna segment:
+    int temper = 0x3f & dna;
+    
+    //get binary representation of dna segment:
+    string binary_rep = get_binary_representation(temper, 6);
+    string output = "[" + binary_rep + "] ";
+
+    //get stiffness description:
+    if ( temper == 0 ) {
+        output += "Ultimate mild-temperedness";
+    }
+    else if ( temper < 8 ) {
+        output += "Extremely mild tempered";
+    }
+    else if ( temper == 0x3f ) {
+        output += "Ultimate non-mild-temperedness";
+    }
+    else if ( temper > 0x38 ) {
+        output += "Extremely unmild tempered";
+    }
+    else  {
+        output += "Less mild tempered than desirable";
+    }
+    return output;
+}
+
 string DNA::to_string(DNA d) {
     string output = "";
     output += d.readable_coat_length() + "\n";
     output += d.readable_stiffness() + "\n";
     output += d.readable_background_color() + "\n";
-    output += d.readable_foreground_color();
+    output += d.readable_foreground_color() + "\n";
     //TODO add other "readable" lines
+    output += d.readable_temper();
     return output;
 }
 

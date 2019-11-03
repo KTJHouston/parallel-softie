@@ -6,7 +6,12 @@
 using namespace std;
 
 int main(int argc, char** argv) {
-    long input = (long)0xffd3a << 44;
-    DNA d = (input);
+    for (long i = 0; i < 64; i++) {
+        long input = i;// << 50;
+        DNA d = DNA(input);
+        cout << d.readable_temper() << endl;
+    }
+    
+    DNA d = DNA(8);
     cout << DNA::to_string(d) << endl;
 }
