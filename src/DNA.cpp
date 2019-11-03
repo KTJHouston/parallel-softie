@@ -4,8 +4,7 @@
 // PUBLIC
 /////////////////////////////////////////////////////////////////
 
-DNA::DNA(dna_t dna)
-{
+DNA::DNA(dna_t dna) {
     this->dna = dna;
 }
 
@@ -16,8 +15,7 @@ Coat length is determined by first (most significant) 8 bits
 in the dna sequence. 00000000 is hairless. 11111111 is a coat 
 of length 10.2 inches. 11001000 corresponds to 8 inches. 
 */
-string DNA::readable_coat_length()
-{
+string DNA::readable_coat_length() {
     //snip dna segment:
     int length_bits = 0xff & (dna >> 56);
 
@@ -45,8 +43,7 @@ Stiffness is determined by 6 bits (bits 50 through 55).
 000000 corresponds to the ultimate in softness. 000111 is 
 extremely soft. And, 111111 is ultimate sitffness. 
 */
-string DNA::readable_stiffness()
-{
+string DNA::readable_stiffness() {
     //snip dna segment:
     int stiffness = 0x3f & (dna >> 50);
     
@@ -55,24 +52,19 @@ string DNA::readable_stiffness()
     string output = "[" + binary_rep + "] ";
 
     //get stiffness description:
-    if ( stiffness == 0 )
-    {
+    if ( stiffness == 0 ) {
         output += "Ultimate softness";
     }
-    else if ( stiffness < 8 )
-    {
+    else if ( stiffness < 8 ) {
         output += "Extremely soft";
     }
-    else if ( stiffness == 0x3f )
-    {
+    else if ( stiffness == 0x3f ) {
         output += "Ultimate stiff";
     }
-    else if ( stiffness > 0x38 )
-    {
+    else if ( stiffness > 0x38 ) {
         output += "Extremely stiff";
     }
-    else 
-    {
+    else  {
         output += "More stiff than desirable";
     }
     return output;
@@ -91,8 +83,7 @@ Color:
 001 - Brown
 Else - Other
 */
-string DNA::readable_background_color()
-{
+string DNA::readable_background_color() {
     //snip dna segment:
     int brightness = 0x7 & (dna >> 47);
     int color = 0x7 & (dna >> 44);
@@ -104,34 +95,27 @@ string DNA::readable_background_color()
         + "] Background color is ";
     
     // Get brightness description:
-    if ( brightness == 0 )
-    {
+    if ( brightness == 0 ) {
         output += "very bright ";
     }
-    else if ( brightness == 7 )
-    {
+    else if ( brightness == 7 ) {
         output += "very dark ";
     }
-    else if ( brightness <= 3 )
-    {
+    else if ( brightness <= 3 ) {
         output += "bright ";
     }
-    else if ( brightness >= 4 )
-    {
+    else if ( brightness >= 4 ) {
         output += "bark ";
     }
 
     // Get color description:
-    if ( color == 0 )
-    {
+    if ( color == 0 ) {
         output += "white";
     }
-    else if ( color == 1 )
-    {
+    else if ( color == 1 ) {
         output += "brown";
     }
-    else
-    {
+    else {
         output += "other";
     }
     
@@ -154,7 +138,7 @@ Color:
 111 - Black
 Else - Other
 */
-string DNA::readable_foreground_color(){
+string DNA::readable_foreground_color() {
     //snip dna segment:
     int brightness = 0x7 & (dna >> 47);
     int color = 0x7 & (dna >> 44);
@@ -166,33 +150,33 @@ string DNA::readable_foreground_color(){
         + "] Foreground color is ";
     
     // Get brightness description:
-    if ( brightness == 0 ){
+    if ( brightness == 0 ) {
         output += "very bright ";
     }
-    else if ( brightness == 7 ){
+    else if ( brightness == 7 ) {
         output += "very dark ";
     }
-    else if ( brightness <= 3 ){
+    else if ( brightness <= 3 ) {
         output += "bright ";
     }
-    else if ( brightness >= 4 ){
+    else if ( brightness >= 4 ) {
         output += "dark ";
     }
 
     // Get color description:
-    if ( color == 0 ){
+    if ( color == 0 ) {
         output += "white";
     }
-    else if ( color == 1 ){
+    else if ( color == 1 ) {
         output += "brown";
     }
-    else if ( color == 2 ){
+    else if ( color == 2 ) {
         output += "red";
     }
-    else if ( color == 3 ){
+    else if ( color == 3 ) {
         output += "yellow";
     }
-    else if ( color == 7 ){
+    else if ( color == 7 ) {
         output += "black";
     }
     else{
@@ -202,8 +186,7 @@ string DNA::readable_foreground_color(){
     return output;
 }
 
-string DNA::to_string(DNA d)
-{
+string DNA::to_string(DNA d) {
     string output = "";
     output += d.readable_coat_length() + "\n";
     output += d.readable_stiffness() + "\n";
@@ -223,11 +206,9 @@ get_binary_representation
 Will return a binary representation of the input value in a string. 
 The number of bits to print must be 1 <= bit_count <= 10. 
 */
-string DNA::get_binary_representation(int value, int bit_count)
-{
+string DNA::get_binary_representation(int value, int bit_count) {
     //error check input:
-    if (bit_count < 1 || bit_count > 10)
-    {
+    if (bit_count < 1 || bit_count > 10) {
         return "";
     }
 
@@ -235,15 +216,12 @@ string DNA::get_binary_representation(int value, int bit_count)
     int single_bit = 1 << (bit_count - 1);
 
     //iterates from most significant bit to least, appending to output
-    for (int i = 0; i < bit_count; i++)
-    {
+    for (int i = 0; i < bit_count; i++) {
         int and_val = value & single_bit;
-        if (and_val == 0)
-        {
+        if (and_val == 0) {
             output += "0";
         }
-        else
-        {
+        else {
             output += "1";
         }
         single_bit = single_bit >> 1;

@@ -8,8 +8,7 @@ using namespace std;
 
 typedef unsigned long dna_t;
 
-class DNA
-{
+class DNA {
     private:
     dna_t dna;
 
