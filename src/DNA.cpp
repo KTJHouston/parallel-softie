@@ -249,8 +249,8 @@ string DNA::readable_paw_and_tail() {
 ***/
 string DNA::readable_tail_length_and_shape() {
     //snip dna segment:
-    int tail_length = 0xff & (dna >> 35);
-    int tail_shape = 0x3 & (dna >> 33);
+    int tail_length = 0xff & (dna >> 28);
+    int tail_shape = 0x3 & (dna >> 26);
     
     string binary_rep_length = get_binary_representation(tail_length, 8);
     string binary_rep_shape = get_binary_representation(tail_shape, 2);
@@ -305,8 +305,8 @@ string DNA::readable_tail_length_and_shape() {
 string DNA::readable_weight() {
     //snip dna segment:
     //TODO: fix these segments so the values are properly grabbed
-    int weight = 0x7f & (dna >> 26);
-    int incremental_weight = 0x7 & (dna >> 26);
+    int weight = 0x7f & (dna >> 19);
+    int incremental_weight = 0x7 & (dna >> 16);
     
     string binary_rep_weight = get_binary_representation(weight, 7);
     string binary_rep_inc_weight = get_binary_representation(incremental_weight, 3);
@@ -334,7 +334,7 @@ string DNA::readable_weight() {
 ***/
 string DNA::readable_pawprint_area() {
     //snip dna segment:
-    int area = 0x7f & (dna >> 11);
+    int area = 0x7f & (dna >> 9);
     
     //TODO: Fix this so the range is from 0.5 to 13.2...
     //convert dna segment to length in inches:
