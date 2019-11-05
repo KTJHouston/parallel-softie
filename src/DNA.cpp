@@ -273,20 +273,22 @@ string DNA::readable_tail_length_and_shape() {
         output += inches_rep + " in. long, ";
         
         // Get shape description:
-        if ( tail_shape == 0 ) {
-            output += "straight-up";
-        }
-        else if( tail_shape == 1) {
-            output += "horizontal";
-        }
-        else if( tail_shape == 2) {
-            output += "straight-down";
-        }
-        else if( tail_shape == 3) {
-            output += "curly tailed";
-        }
-        else {
-            output += "UNDEFINED";
+        switch(tail_shape) {
+            case 0:
+                output += "straight-up";
+                break;
+            case 1:
+                output += "horizontal";
+                break;
+            case 2:
+                output += "straight-down";
+                break;
+            case 3:
+                output += "curly tailed";
+                break;
+            default:
+                output += "UNDEFINED";
+                break;
         }
     }
     return output;
