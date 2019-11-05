@@ -302,7 +302,7 @@ string DNA::readable_tail_length_and_shape() {
 * The first seven (bits 19 through 25) = weight in kgs 
 * Add the last three (bits 16 through 18) = weight in increments of 1/8 kg.
 * 
-18 kg. Thus, a weight characteristic of 00000101012 would be a weight of 538 kg.
+18 kg. Thus, a weight characteristic of 0000101011 would be a weight of 5 3/8 kg.
 */
 string DNA::readable_weight() {
     //snip dna segment:
@@ -314,7 +314,7 @@ string DNA::readable_weight() {
     string binary_rep_inc_weight = get_binary_representation(incremental_weight, 3);
     string output = "[" + binary_rep_weight + binary_rep_inc_weight + "] ";
     
-    int total = weight + (incremental_weight * 18);
+    float total = weight + (incremental_weight * 0.125);
     
     stringstream ss;
     ss << setprecision(4) << total;
@@ -338,10 +338,8 @@ string DNA::readable_pawprint_area() {
     //snip dna segment:
     int area = 0x7f & (dna >> 9);
     
-    //TODO: Fix this so the range is from 0.5 to 13.2...
-    //convert dna segment to length in inches:
-    float bits_to_inches_ratio = 13.2 / 128;
-    float area_inches = area * bits_to_inches_ratio;
+    //offset dna int by 0.5 sq inches:
+    float area_inches = (area * 0.1) + 0.5;
     
     //get binary representation of dna segment:
     string binary_rep = get_binary_representation(area, 7);
