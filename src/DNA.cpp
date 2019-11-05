@@ -356,6 +356,53 @@ string DNA::readable_pawprint_area() {
 }
 
 /*
+readable_webbing
+
+Webbing is determined by 3 bits (bits 6 through 8). 
+000 is 1/8 webbed. 111 is fully webbed. And 011 is 
+1/2 webbed. 
+*/
+string DNA::readable_webbing() {
+    //snip dna segment:
+    int webbing = 0x7 & (dna >> 6);
+    
+    //get binary representation of dna segment:
+    string binary_rep = get_binary_representation(webbing, 3);
+    string output = "[" + binary_rep + "] ";
+
+    switch(webbing) {
+        case 0:
+            output += "1/8";
+            break;
+        case 1:
+            output += "25 percent";
+            break;
+        case 2:
+            output += "3/8";
+            break;
+        case 3:
+            output += "50 percent";
+            break;
+        case 4:
+            output += "5/8";
+            break;
+        case 5:
+            output += "75 percent";
+            break;
+        case 6:
+            output += "7/8";
+            break;
+        case 7:
+            output += "100 percent";
+            break;
+    }
+    output += " webbed";
+
+    //get stiffness description:
+    return output;
+}
+
+/*
 readable_temper
 
 Temper is determined by 6 bits (bits 0 through 5). 
@@ -402,9 +449,9 @@ string DNA::to_string(DNA d) {
     output += d.readable_foreground_color() + "\n";
     output += d.readable_paw_and_tail() + "\n";
     output += d.readable_tail_length_and_shape() + "\n";
-    //TODO add other "readable" lines
     output += d.readable_weight() + "\n";
     output += d.readable_pawprint_area() + "\n";
+    output += d.readable_webbing() + "\n";
     output += d.readable_temper();
     return output;
 }
