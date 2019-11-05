@@ -302,7 +302,7 @@ string DNA::readable_tail_length_and_shape() {
 * 
 18 kg. Thus, a weight characteristic of 00000101012 would be a weight of 538 kg.
 */
-/* string DNA::readable_weight() {
+string DNA::readable_weight() {
     //snip dna segment:
     //TODO: fix these segments so the values are properly grabbed
     int weight = 0x7f & (dna >> 19);
@@ -321,7 +321,7 @@ string DNA::readable_tail_length_and_shape() {
     output += kgs_rep + " kg weight";
 
     return output;
-} */
+}
 
 /***
 * readable_pawprint_area
@@ -332,7 +332,7 @@ string DNA::readable_tail_length_and_shape() {
 *   0100011 is 4 sq in. 
 *
 ***/
-/* string DNA::readable_pawprint_area() {
+string DNA::readable_pawprint_area() {
     //snip dna segment:
     int area = 0x7f & (dna >> 9);
     
@@ -353,7 +353,7 @@ string DNA::readable_tail_length_and_shape() {
     string output = "[" + binary_rep + "] " + inches_rep + " sq. in. pawprint area";
 
     return output;
-} */
+}
 
 /*
 readable_temper
@@ -402,9 +402,9 @@ string DNA::to_string(DNA d) {
     output += d.readable_foreground_color() + "\n";
     output += d.readable_paw_and_tail() + "\n";
     output += d.readable_tail_length_and_shape() + "\n";
-    //output += d.readable_weight() + "\n";
-    //output += d.readable_pawprint_area() + "\n";
     //TODO add other "readable" lines
+    output += d.readable_weight() + "\n";
+    output += d.readable_pawprint_area() + "\n";
     output += d.readable_temper();
     return output;
 }

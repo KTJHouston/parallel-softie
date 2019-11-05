@@ -22,9 +22,9 @@ class DNA {
     string readable_foreground_color();
     string readable_paw_and_tail();
     string readable_tail_length_and_shape();
-    //string readable_weight();
-    //string readable_pawprint_area();
     //readable_webbing
+    string readable_weight();
+    string readable_pawprint_area();
     string readable_temper();
     static string to_string(DNA d);
 
