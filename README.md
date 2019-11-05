@@ -39,7 +39,7 @@ Thus, in total, one needs 64 bits to represent an individual dog in this populat
 • [1110012]     Foreground color is dark brown
 • [012]         White paws and black tail
 • [10000000112] 12.8 in. long, curly-tailed
-• [00000101012]  13.5 kg weight
+• [0011011002]  13.5 kg weight
 • [01000112]    4 sq. in. pawprint area
 • [0112]        50 percent webbed
 • [0001002]     Extremely mild tempered
