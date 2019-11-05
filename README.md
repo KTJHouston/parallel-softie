@@ -21,7 +21,7 @@ B. Can be represented by six softness bits (in which 0000002 corresponds to the 
 
 C. Can be represented by 10 bits, in which eight are related to tail length (000000002 corresponds to a tailless variety, and 111111112 corresponds to a tail-length of 25.5 in. or longer) and two denote tail appearance: 002 correspond to pointing straight up, 012 correspond to pointing horizontally, 102 corresponds to pointing straight down, and 112 corresponds to the highly undesirable curly tailed appearance.
 
-D. Can be represented by 10 bits, in which the first seven correspond to a weight in kg and the second three correspond to a weight in increments of 18 kg. Thus, a weight characteristic of 00000101012 would be a weight of 538 kg.
+D. Can be represented by 10 bits, in which the first seven correspond to a weight in kg and the second three correspond to a weight in increments of 1/8 kg. Thus, a weight characteristic of 00000101012 would be a weight of 538 kg.
 
 E. Can be represented by 10 bits, seven bits of which correspond to pawprint area and three to the fraction of webbed. In this example, 0000002 corresponds to a pawprint area of 0.5 sq. in., 11111112 corresponds to a pawprint area of 13.2 sq. in., and 01000112 corresponds to a pawprint area of 4.0 sq. in. In the final three bits, 0002 corresponds to 1/8 webbed, and 1112
 corresponds to fully webbed.

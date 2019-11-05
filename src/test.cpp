@@ -24,9 +24,9 @@ int main(int argc, char** argv) {
      * ****/
     //print out all possibles values of one attribute
     for (long i = 0; i < 128; i++) {
-        long input = i << 11;
+        long input = i << 9;
         DNA d = DNA(input);
-        cout << d.readable_tail_length_and_shape() << endl;
+        cout << d.readable_pawprint_area() << endl;
         cout.flush();
     }
     

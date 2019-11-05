@@ -336,10 +336,8 @@ string DNA::readable_pawprint_area() {
     //snip dna segment:
     int area = 0x7f & (dna >> 9);
     
-    //TODO: Fix this so the range is from 0.5 to 13.2...
-    //convert dna segment to length in inches:
-    float bits_to_inches_ratio = 13.2 / 128;
-    float area_inches = area * bits_to_inches_ratio;
+    //offset dna int by 0.5 sq inches:
+    float area_inches = (area * 0.1) + 0.5;
     
     //get binary representation of dna segment:
     string binary_rep = get_binary_representation(area, 7);
