@@ -18,7 +18,7 @@ int main(int argc, char** argv) {
      * paw_&_tail     : 37   : 4
      * tail_len_&_shp : 33   : 1024
      * weight         : 26   : 1024
-     * pawprint_area  :      : 128
+     * pawprint_area  : 11   : 128
      * webbing        :      : 8
      * temper         : none : 64
      * ****/
@@ -26,7 +26,7 @@ int main(int argc, char** argv) {
     for (long i = 0; i < 128; i++) {
         long input = i << 11;
         DNA d = DNA(input);
-        cout << d.readable_pawprint_area() << endl;
+        cout << d.readable_tail_length_and_shape() << endl;
         cout.flush();
     }
     
