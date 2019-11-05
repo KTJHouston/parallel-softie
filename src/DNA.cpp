@@ -8,13 +8,14 @@ DNA::DNA(dna_t dna) {
     this->dna = dna;
 }
 
-/*
-readable_coat_length
-
-Coat length is determined by first (most significant) 8 bits
-in the dna sequence. 00000000 is hairless. 11111111 is a coat 
-of length 10.2 inches. 11001000 corresponds to 8 inches. 
-*/
+/***
+* readable_coat_length
+*
+* Coat length is determined by first (most significant) 8 bits
+* in the dna sequence. 00000000 is hairless. 11111111 is a coat 
+* of length 10.2 inches. 11001000 corresponds to 8 inches. 
+*
+***/
 string DNA::readable_coat_length() {
     //snip dna segment:
     int length_bits = 0xff & (dna >> 56);
@@ -36,13 +37,14 @@ string DNA::readable_coat_length() {
     return output;
 }
 
-/*
-readable_stiffness
-
-Stiffness is determined by 6 bits (bits 50 through 55). 
-000000 corresponds to the ultimate in softness. 000111 is 
-extremely soft. And, 111111 is ultimate sitffness. 
-*/
+/***
+* readable_stiffness
+*
+* Stiffness is determined by 6 bits (bits 50 through 55). 
+* 000000 corresponds to the ultimate in softness. 000111 is 
+* extremely soft. And, 111111 is ultimate sitffness. 
+*
+***/
 string DNA::readable_stiffness() {
     //snip dna segment:
     int stiffness = 0x3f & (dna >> 50);
@@ -70,19 +72,19 @@ string DNA::readable_stiffness() {
     return output;
 }
 
-/*
-readable_background_color
-
-Background color is determined by 6 bits (bits 44 through 49). 
-The most significant 3 bits are for brightness. And least 
-significant 3 bits determine color. 
-
-Brightness: 000 is bright. 111 is dark. 
-Color: 
-000 - White
-001 - Brown
-Else - Other
-*/
+/***
+* readable_background_color
+*
+* Background color is determined by 6 bits (bits 44 through 49). 
+* The most significant 3 bits are for brightness. And least 
+* significant 3 bits determine color. 
+*
+* Brightness: 000 is bright. 111 is dark. 
+* Color: 
+*   000 - White
+*   001 - Brown
+*   Else - Other
+***/
 string DNA::readable_background_color() {
     //snip dna segment:
     int brightness = 0x7 & (dna >> 47);
@@ -122,26 +124,26 @@ string DNA::readable_background_color() {
     return output;
 }
 
-/*
-readable_foreground_color
-
-Foreground color is determined by 6 bits (bits 44 through 49). 
-The most significant 3 bits are for brightness. And least 
-significant 3 bits determine color. 
-
-Brightness: 000 is very bright. 111 is very dark. 
-Color: 
-000 - White
-001 - Brown
-010 - Red
-011 - Yellow
-111 - Black
-Else - Other
-*/
+/***
+* readable_foreground_color
+*
+* Foreground color is determined by 6 bits (bits 44 through 49). 
+* The most significant 3 bits are for brightness. And least 
+* significant 3 bits determine color. 
+*
+* Brightness: 000 is very bright. 111 is very dark. 
+* Color: 
+*    000 - White
+*    001 - Brown
+*    010 - Red
+*    011 - Yellow
+*    111 - Black
+*    Else - Other
+***/
 string DNA::readable_foreground_color() {
     //snip dna segment:
-    int brightness = 0x7 & (dna >> 47);
-    int color = 0x7 & (dna >> 44);
+    int brightness = 0x7 & (dna >> 41);
+    int color = 0x7 & (dna >> 38);
     
     //get binary representation of dna segment:
     string binary_rep_brightness = get_binary_representation(brightness, 3);
@@ -186,10 +188,176 @@ string DNA::readable_foreground_color() {
     return output;
 }
 
+
+/***
+* readable_paw_and_tail
+*
+* Paw color is determined by 1 bit
+*    0 : white
+*    1 : any other color
+*
+* Tail color is determined by 1 bit
+*    0 : any other color
+*    1 : black
+*
+***/
+string DNA::readable_paw_and_tail() {
+    //snip dna segment:
+    int paw = 0x1 & (dna >> 37);
+    int tail = 0x1 & (dna >> 36);
+    
+    string binary_rep_paw = get_binary_representation(paw, 1);
+    string binary_rep_tail = get_binary_representation(tail, 1);
+    string output = "[" + binary_rep_paw + " " + binary_rep_tail + "] ";
+    
+    // Get paw color:
+    if ( paw == 0 ) {
+        output += "White paws ";
+    }
+    else {
+        output += "Any color paws";
+    }
+
+    // Get tail color:
+    if ( tail == 1 ) {
+        output += "black tail";
+    }
+    else {
+        output += "any color tail";
+    }
+    
+    return output;
+}
+
+
+/***
+* readable_tail_length_and_shape
+* 
+* Tail length is determined by 8 bits:
+*     00000000 : tailless
+*     11111111 : tail of 25.5 inches or longer
+*     the remaining values are determined by the 
+*        formula (int * 0.1) = inches
+*
+* Tail appearance(shape) is determined by 3 bits:
+*     00 : pointing straight up, 
+*     01 : pointing horizontally, 
+*     10 : pointing straight down, 
+*     11 : highly undesirable curly tailed appearance
+*
+***/
+string DNA::readable_tail_length_and_shape() {
+    //snip dna segment:
+    int tail_length = 0xff & (dna >> 35);
+    int tail_shape = 0x3 & (dna >> 33);
+    
+    string binary_rep_length = get_binary_representation(tail_length, 8);
+    string binary_rep_shape = get_binary_representation(tail_shape, 2);
+    string output = "[" + binary_rep_length + " " + binary_rep_shape + "] ";
+
+    if( tail_length == 0) {
+        output += "tailless";
+        return output;
+    }
+    else {
+        //convert dna segment to length in inches:
+        float length_inches = tail_length * .1;
+        
+        //limit precision of length in inches:
+        stringstream ss;
+        ss << setprecision(4) << length_inches;
+        string inches_rep = ss.str();
+
+        //build output string:
+        output += inches_rep + " in. long, ";
+        
+        // Get shape description:
+        if ( tail_shape == 0 ) {
+            output += "straight-up";
+        }
+        else if( tail_shape == 1) {
+            output += "horizontal";
+        }
+        else if( tail_shape == 2) {
+            output += "straight-down";
+        }
+        else if( tail_shape == 3) {
+            output += "curly tailed";
+        }
+        else {
+            output += "UNDEFINED";
+        }
+    }
+    return output;
+
+}
+
+/*
+* readable_weight
+*
+* Weight is determined by 10 bits.
+* The first seven = weight in kgs 
+* Add the last three - weight in increments of 18 kg.
+* 
+18 kg. Thus, a weight characteristic of 00000101012 would be a weight of 538 kg.
+*/
+string DNA::readable_weight() {
+    //snip dna segment:
+    //TODO: fix these segments so the values are properly grabbed
+    int weight = 0x7f & (dna >> 26);
+    int incremental_weight = 0x7 & (dna >> 26);
+    
+    string binary_rep_weight = get_binary_representation(weight, 7);
+    string binary_rep_inc_weight = get_binary_representation(incremental_weight, 3);
+    string output = "[" + binary_rep_weight + binary_rep_inc_weight + "] ";
+    
+    int total = weight + (incremental_weight * 18);
+    
+    stringstream ss;
+    ss << setprecision(4) << total;
+    string kgs_rep = ss.str();
+
+    output += kgs_rep + " kg weight";
+
+    return output;
+}
+
+/***
+* readable_pawprint_area
+*
+* Pawprint area is determined by 7 bits
+*   0000000 is 0.5 sq in. 
+*   1111111 is 13.2 sq in 
+*   0100011 is 4 sq in. 
+*
+***/
+string DNA::readable_pawprint_area() {
+    //snip dna segment:
+    int area = 0x7f & (dna >> 11);
+    
+    //TODO: Fix this so the range is from 0.5 to 13.2...
+    //convert dna segment to length in inches:
+    float bits_to_inches_ratio = 13.2 / 128;
+    float area_inches = area * bits_to_inches_ratio;
+    
+    //get binary representation of dna segment:
+    string binary_rep = get_binary_representation(area, 7);
+
+    //limit precision of length in inches:
+    stringstream ss;
+    ss << setprecision(4) << area_inches;
+    string inches_rep = ss.str();
+
+    //build output string:
+    string output = "[" + binary_rep + "] " + inches_rep + " sq. in. pawprint area";
+
+    return output;
+}
+
 /*
 readable_temper
 
-Stiffness is determined by 6 bits (bits 5 through 0). 
+Temper is determined by 6 bits (bits 5 through 0). 
 000000 corresponds to the ultimate in mild-termpered-disposition. 
 000100 is extremely mild tempered. And, 111111 is "meaner than a 
 junkyard dog" - the ultimate in non-mild-temperedness. 
@@ -230,6 +398,10 @@ string DNA::to_string(DNA d) {
     output += d.readable_stiffness() + "\n";
     output += d.readable_background_color() + "\n";
     output += d.readable_foreground_color() + "\n";
+    output += d.readable_paw_and_tail() + "\n";
+    output += d.readable_tail_length_and_shape() + "\n";
+    output += d.readable_weight() + "\n";
+    output += d.readable_pawprint_area() + "\n";
     //TODO add other "readable" lines
     output += d.readable_temper();
     return output;
