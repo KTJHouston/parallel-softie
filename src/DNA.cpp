@@ -12,8 +12,9 @@ DNA::DNA(dna_t dna) {
 * readable_coat_length
 *
 * Coat length is determined by first (most significant) 8 bits
-* in the dna sequence. 00000000 is hairless. 11111111 is a coat 
-* of length 10.2 inches. 11001000 corresponds to 8 inches. 
+* in the dna sequence (bits 56 through 63). 00000000 is hairless. 
+* 11111111 is a coat of length 10.2 inches. 11001000 corresponds 
+* to 8 inches. 
 *
 ***/
 string DNA::readable_coat_length() {
@@ -127,7 +128,7 @@ string DNA::readable_background_color() {
 /***
 * readable_foreground_color
 *
-* Foreground color is determined by 6 bits (bits 44 through 49). 
+* Foreground color is determined by 6 bits (bits 38 through 43). 
 * The most significant 3 bits are for brightness. And least 
 * significant 3 bits determine color. 
 *
@@ -192,11 +193,11 @@ string DNA::readable_foreground_color() {
 /***
 * readable_paw_and_tail
 *
-* Paw color is determined by 1 bit
+* Paw color is determined by 1 bit (bit 37)
 *    0 : white
 *    1 : any other color
 *
-* Tail color is determined by 1 bit
+* Tail color is determined by 1 bit (bit 36)
 *    0 : any other color
 *    1 : black
 *
@@ -233,13 +234,13 @@ string DNA::readable_paw_and_tail() {
 /***
 * readable_tail_length_and_shape
 * 
-* Tail length is determined by 8 bits:
+* Tail length is determined by 8 bits (bits 28 through 35):
 *     00000000 : tailless
 *     11111111 : tail of 25.5 inches or longer
 *     the remaining values are determined by the 
 *        formula (int * 0.1) = inches
 *
-* Tail appearance(shape) is determined by 3 bits:
+* Tail appearance(shape) is determined by 2 bits (bits 26 and 27):
 *     00 : pointing straight up, 
 *     01 : pointing horizontally, 
 *     10 : pointing straight down, 
@@ -248,8 +249,8 @@ string DNA::readable_paw_and_tail() {
 ***/
 string DNA::readable_tail_length_and_shape() {
     //snip dna segment:
-    int tail_length = 0xff & (dna >> 35);
-    int tail_shape = 0x3 & (dna >> 33);
+    int tail_length = 0xff & (dna >> 28);
+    int tail_shape = 0x3 & (dna >> 26);
     
     string binary_rep_length = get_binary_representation(tail_length, 8);
     string binary_rep_shape = get_binary_representation(tail_shape, 2);
@@ -295,17 +296,17 @@ string DNA::readable_tail_length_and_shape() {
 /*
 * readable_weight
 *
-* Weight is determined by 10 bits.
-* The first seven = weight in kgs 
-* Add the last three - weight in increments of 18 kg.
+* Weight is determined by 10 bits (bits 16 through 25).
+* The first seven (bits 19 through 25) = weight in kgs 
+* Add the last three (bits 16 through 18) = weight in increments of 1/8 kg.
 * 
 18 kg. Thus, a weight characteristic of 00000101012 would be a weight of 538 kg.
 */
 /* string DNA::readable_weight() {
     //snip dna segment:
     //TODO: fix these segments so the values are properly grabbed
-    int weight = 0x7f & (dna >> 26);
-    int incremental_weight = 0x7 & (dna >> 26);
+    int weight = 0x7f & (dna >> 19);
+    int incremental_weight = 0x7 & (dna >> 16);
     
     string binary_rep_weight = get_binary_representation(weight, 7);
     string binary_rep_inc_weight = get_binary_representation(incremental_weight, 3);
@@ -325,7 +326,7 @@ string DNA::readable_tail_length_and_shape() {
 /***
 * readable_pawprint_area
 *
-* Pawprint area is determined by 7 bits
+* Pawprint area is determined by 7 bits (bits 9 through 15):
 *   0000000 is 0.5 sq in. 
 *   1111111 is 13.2 sq in 
 *   0100011 is 4 sq in. 
@@ -333,7 +334,7 @@ string DNA::readable_tail_length_and_shape() {
 ***/
 /* string DNA::readable_pawprint_area() {
     //snip dna segment:
-    int area = 0x7f & (dna >> 11);
+    int area = 0x7f & (dna >> 9);
     
     //TODO: Fix this so the range is from 0.5 to 13.2...
     //convert dna segment to length in inches:
@@ -357,7 +358,7 @@ string DNA::readable_tail_length_and_shape() {
 /*
 readable_temper
 
-Temper is determined by 6 bits (bits 5 through 0). 
+Temper is determined by 6 bits (bits 0 through 5). 
 000000 corresponds to the ultimate in mild-termpered-disposition. 
 000100 is extremely mild tempered. And, 111111 is "meaner than a 
 junkyard dog" - the ultimate in non-mild-temperedness. 
@@ -373,7 +374,7 @@ string DNA::readable_temper() {
     string binary_rep = get_binary_representation(temper, 6);
     string output = "[" + binary_rep + "] ";
 
-    //get stiffness description:
+    //get temper description:
     if ( temper == 0 ) {
         output += "Ultimate mild-temperedness";
     }
