@@ -300,7 +300,7 @@ string DNA::readable_tail_length_and_shape() {
 * The first seven (bits 19 through 25) = weight in kgs 
 * Add the last three (bits 16 through 18) = weight in increments of 1/8 kg.
 * 
-18 kg. Thus, a weight characteristic of 00000101012 would be a weight of 538 kg.
+18 kg. Thus, a weight characteristic of 0000101011 would be a weight of 5 3/8 kg.
 */
 string DNA::readable_weight() {
     //snip dna segment:
@@ -312,7 +312,7 @@ string DNA::readable_weight() {
     string binary_rep_inc_weight = get_binary_representation(incremental_weight, 3);
     string output = "[" + binary_rep_weight + binary_rep_inc_weight + "] ";
     
-    int total = weight + (incremental_weight * 18);
+    float total = weight + (incremental_weight * 0.125);
     
     stringstream ss;
     ss << setprecision(4) << total;

@@ -23,10 +23,10 @@ int main(int argc, char** argv) {
      * temper         : 0    : 64
      * ****/
     //print out all possibles values of one attribute
-    for (long i = 0; i < 128; i++) {
-        long input = i << 9;
+    for (long i = 0; i < 1024; i++) {
+        long input = i << 16;
         DNA d = DNA(input);
-        cout << d.readable_pawprint_area() << endl;
+        cout << d.readable_weight() << endl;
         cout.flush();
     }
     
