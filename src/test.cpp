@@ -26,7 +26,7 @@ int main(int argc, char** argv) {
     for (long i = 0; i < 128; i++) {
         long input = i << 11;
         DNA d = DNA(input);
-        cout << d.readable_pawprint_area() << endl;
+        cout << d.readable_tail_length_and_shape() << endl;
         cout.flush();
     }
     
