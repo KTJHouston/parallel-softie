@@ -1,0 +1,46 @@
+#ifndef INITIAL_CPP
+#define INITIAL_CPP
+
+#include "initial.h"
+#include "DNA.h"
+#include <vector>
+#include <cstdlib>
+
+/***
+ * initial_p function
+ * 
+ * a method designed to randomly generate the DNA sequences of
+ * a population of dogs
+ * 
+ * @return vector<DNA>    : the collection of generated dog DNAs
+ * @input: 
+ *         generation_num : the current generation
+ *         start          : the starting population number; the
+ *                          number of dogs to generate
+ * 
+ * ***/
+vector<DNA> initial_p(int generation_num, int start){
+    if(generation_num != 0){
+        cerr << "Generation_num is not 0 during initialization." << endl;
+        exit(0);
+    }
+
+    vector<DNA> gen;
+    while(gen.size() < start){
+        //create a randomly generated dog
+        dna_t dogDNA = 0;
+        //TODO: randomly generate caracteristics
+
+        //create DNA object
+        DNA dog(dogDNA);
+        //add the new dog's DNA to the generation
+        gen.push_back(dog);
+    }
+    if(gen.size() != start){
+        cerr << "Initial population not the specified size, instead it's " << gen.size() << endl;
+    }
+
+    return gen;
+}
+
+#endif //INITIAL_CPP
