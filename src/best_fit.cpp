@@ -27,6 +27,32 @@ using namespace std;
  * ***/   
 float best_fit(DNA dog) {
     float eval = 0.0;
+    //coat_length
+    if(dog.readable_coat_length >= 8)
+        eval += 0.1;
+    else {
+        /* code */
+    }
+    //coat stiffness
+    if(dog.readable_stiffness == "Extremely soft" || dog.readable_stiffness == "Ultimate Softness") {
+        eval += 0.1;
+    }
+    else {
+        /* code */
+    }
+    //coat color
+    if(dog.readable_background_color == "white"){
+        eval += 0.1;
+    }
+    else {
+        /* code */
+    }
+    if(dog.readable_foreground_color == "brown"){
+        eval += 0.1;
+    }
+    else {
+        /* code */
+    }
 
     return 0.0;
 }
