@@ -22,8 +22,8 @@ DNA::DNA() {
     }
 
     //set sequence:
-    this->dna = (rand() << 32) + rand();
-}
+    this->dna = ((dna_t)(rand()) << 32) + rand();
+}//end DNA() constructor
 
 /**
  * Constructor
