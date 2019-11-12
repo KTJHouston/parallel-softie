@@ -6,7 +6,7 @@
 
 DNA::DNA(dna_t dna) {
     this->dna = dna;
-}
+}//end DNA(dna_t) constructor
 
 /***
 * readable_coat_length
@@ -36,7 +36,7 @@ string DNA::readable_coat_length() {
     //build output string:
     string output = "[" + binary_rep + "] " + inches_rep + " in. coat";
     return output;
-}
+}//end readable_coat_length
 
 /***
 * readable_stiffness
@@ -71,7 +71,7 @@ string DNA::readable_stiffness() {
         output += "More stiff than desirable";
     }
     return output;
-}
+}//end readable_stiffness
 
 /***
 * readable_background_color
@@ -123,7 +123,7 @@ string DNA::readable_background_color() {
     }
     
     return output;
-}
+}//end readable_background_color
 
 /***
 * readable_foreground_color
@@ -187,7 +187,7 @@ string DNA::readable_foreground_color() {
     }
     
     return output;
-}
+}//end readable_foreground_color
 
 
 /***
@@ -228,7 +228,7 @@ string DNA::readable_paw_and_tail() {
     }
     
     return output;
-}
+}//end readable_paw_and_tail
 
 
 /***
@@ -293,7 +293,7 @@ string DNA::readable_tail_length_and_shape() {
     }
     return output;
 
-}
+}//end readable_tail_length_and_shape
 
 /*
 * readable_weight
@@ -323,7 +323,7 @@ string DNA::readable_weight() {
     output += kgs_rep + " kg weight";
 
     return output;
-}
+}//end readable_weight
 
 /***
 * readable_pawprint_area
@@ -353,7 +353,7 @@ string DNA::readable_pawprint_area() {
     string output = "[" + binary_rep + "] " + inches_rep + " sq. in. pawprint area";
 
     return output;
-}
+}//end readable_pawprint_area
 
 /*
 readable_webbing
@@ -400,7 +400,7 @@ string DNA::readable_webbing() {
 
     //get stiffness description:
     return output;
-}
+}//end readable_webbing
 
 /*
 readable_temper
@@ -439,7 +439,7 @@ string DNA::readable_temper() {
     }
     return output;
 
-}
+}//end readable_temper
 
 string DNA::to_string(DNA d) {
     string output = "";
@@ -454,7 +454,7 @@ string DNA::to_string(DNA d) {
     output += d.readable_webbing() + "\n";
     output += d.readable_temper();
     return output;
-}
+}//end to_string
 
 /////////////////////////////////////////////////////////////////
 // PRIVATE
@@ -488,4 +488,4 @@ string DNA::get_binary_representation(int value, int bit_count) {
     }
 
     return output;
-}
+}//end get_binary_representation

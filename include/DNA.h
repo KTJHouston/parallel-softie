@@ -32,4 +32,4 @@ class DNA {
 
     string get_binary_representation(int value, int bit_count);
 
-};
+};//end DNA class
