@@ -8,15 +8,15 @@ DNA::DNA(dna_t dna) {
     this->dna = dna;
 }//end DNA(dna_t) constructor
 
-/***
-* readable_coat_length
-*
-* Coat length is determined by first (most significant) 8 bits
-* in the dna sequence (bits 56 through 63). 00000000 is hairless. 
-* 11111111 is a coat of length 10.2 inches. 11001000 corresponds 
-* to 8 inches. 
-*
-***/
+/**
+ * readable_coat_length
+ *
+ * Coat length is determined by first (most significant) 8 bits
+ * in the dna sequence (bits 56 through 63). 00000000 is hairless. 
+ * 11111111 is a coat of length 10.2 inches. 11001000 corresponds 
+ * to 8 inches. 
+ *
+ **/
 string DNA::readable_coat_length() {
     //snip dna segment:
     int length_bits = 0xff & (dna >> 56);
@@ -38,14 +38,14 @@ string DNA::readable_coat_length() {
     return output;
 }//end readable_coat_length
 
-/***
-* readable_stiffness
-*
-* Stiffness is determined by 6 bits (bits 50 through 55). 
-* 000000 corresponds to the ultimate in softness. 000111 is 
-* extremely soft. And, 111111 is ultimate sitffness. 
-*
-***/
+/**
+ * readable_stiffness
+ *
+ * Stiffness is determined by 6 bits (bits 50 through 55). 
+ * 000000 corresponds to the ultimate in softness. 000111 is 
+ * extremely soft. And, 111111 is ultimate sitffness. 
+ *
+ **/
 string DNA::readable_stiffness() {
     //snip dna segment:
     int stiffness = 0x3f & (dna >> 50);
@@ -73,19 +73,19 @@ string DNA::readable_stiffness() {
     return output;
 }//end readable_stiffness
 
-/***
-* readable_background_color
-*
-* Background color is determined by 6 bits (bits 44 through 49). 
-* The most significant 3 bits are for brightness. And least 
-* significant 3 bits determine color. 
-*
-* Brightness: 000 is bright. 111 is dark. 
-* Color: 
-*   000 - White
-*   001 - Brown
-*   Else - Other
-***/
+/**
+ * readable_background_color
+ *
+ * Background color is determined by 6 bits (bits 44 through 49). 
+ * The most significant 3 bits are for brightness. And least 
+ * significant 3 bits determine color. 
+ *
+ * Brightness: 000 is bright. 111 is dark. 
+ * Color: 
+ *   000 - White
+ *   001 - Brown
+ *   Else - Other
+ **/
 string DNA::readable_background_color() {
     //snip dna segment:
     int brightness = 0x7 & (dna >> 47);
@@ -125,22 +125,22 @@ string DNA::readable_background_color() {
     return output;
 }//end readable_background_color
 
-/***
-* readable_foreground_color
-*
-* Foreground color is determined by 6 bits (bits 38 through 43). 
-* The most significant 3 bits are for brightness. And least 
-* significant 3 bits determine color. 
-*
-* Brightness: 000 is very bright. 111 is very dark. 
-* Color: 
-*    000 - White
-*    001 - Brown
-*    010 - Red
-*    011 - Yellow
-*    111 - Black
-*    Else - Other
-***/
+/**
+ * readable_foreground_color
+ *
+ * Foreground color is determined by 6 bits (bits 38 through 43). 
+ * The most significant 3 bits are for brightness. And least 
+ * significant 3 bits determine color. 
+ *
+ * Brightness: 000 is very bright. 111 is very dark. 
+ * Color: 
+ *    000 - White
+ *    001 - Brown
+ *    010 - Red
+ *    011 - Yellow
+ *    111 - Black
+ *    Else - Other
+ **/
 string DNA::readable_foreground_color() {
     //snip dna segment:
     int brightness = 0x7 & (dna >> 41);
@@ -190,18 +190,18 @@ string DNA::readable_foreground_color() {
 }//end readable_foreground_color
 
 
-/***
-* readable_paw_and_tail
-*
-* Paw color is determined by 1 bit (bit 37)
-*    0 : white
-*    1 : any other color
-*
-* Tail color is determined by 1 bit (bit 36)
-*    0 : any other color
-*    1 : black
-*
-***/
+/**
+ * readable_paw_and_tail
+ *
+ * Paw color is determined by 1 bit (bit 37)
+ *    0 : white
+ *    1 : any other color
+ *
+ * Tail color is determined by 1 bit (bit 36)
+ *    0 : any other color
+ *    1 : black
+ *
+ **/
 string DNA::readable_paw_and_tail() {
     //snip dna segment:
     int paw = 0x1 & (dna >> 37);
@@ -231,22 +231,22 @@ string DNA::readable_paw_and_tail() {
 }//end readable_paw_and_tail
 
 
-/***
-* readable_tail_length_and_shape
-* 
-* Tail length is determined by 8 bits (bits 28 through 35):
-*     00000000 : tailless
-*     11111111 : tail of 25.5 inches or longer
-*     the remaining values are determined by the 
-*        formula (int * 0.1) = inches
-*
-* Tail appearance(shape) is determined by 2 bits (bits 26 and 27):
-*     00 : pointing straight up, 
-*     01 : pointing horizontally, 
-*     10 : pointing straight down, 
-*     11 : highly undesirable curly tailed appearance
-*
-***/
+/**
+ * readable_tail_length_and_shape
+ * 
+ * Tail length is determined by 8 bits (bits 28 through 35):
+ *     00000000 : tailless
+ *     11111111 : tail of 25.5 inches or longer
+ *     the remaining values are determined by the 
+ *        formula (int * 0.1) = inches
+ *
+ * Tail appearance(shape) is determined by 2 bits (bits 26 and 27):
+ *     00 : pointing straight up, 
+ *     01 : pointing horizontally, 
+ *     10 : pointing straight down, 
+ *     11 : highly undesirable curly tailed appearance
+ *
+ **/
 string DNA::readable_tail_length_and_shape() {
     //snip dna segment:
     int tail_length = 0xff & (dna >> 28);
@@ -295,15 +295,15 @@ string DNA::readable_tail_length_and_shape() {
 
 }//end readable_tail_length_and_shape
 
-/*
-* readable_weight
-*
-* Weight is determined by 10 bits (bits 16 through 25).
-* The first seven (bits 19 through 25) = weight in kgs 
-* Add the last three (bits 16 through 18) = weight in increments of 1/8 kg.
-* 
-18 kg. Thus, a weight characteristic of 0000101011 would be a weight of 5 3/8 kg.
-*/
+/**
+ * readable_weight
+ *
+ * Weight is determined by 10 bits (bits 16 through 25).
+ * The first seven (bits 19 through 25) = weight in kgs 
+ * Add the last three (bits 16 through 18) = weight in increments of 1/8 kg.
+ * 
+ * 18 kg. Thus, a weight characteristic of 0000101011 would be a weight of 5 3/8 kg.
+ **/
 string DNA::readable_weight() {
     //snip dna segment:
     //TODO: fix these segments so the values are properly grabbed
@@ -325,15 +325,15 @@ string DNA::readable_weight() {
     return output;
 }//end readable_weight
 
-/***
-* readable_pawprint_area
-*
-* Pawprint area is determined by 7 bits (bits 9 through 15):
-*   0000000 is 0.5 sq in. 
-*   1111111 is 13.2 sq in 
-*   0100011 is 4 sq in. 
-*
-***/
+/**
+ * readable_pawprint_area
+ *
+ * Pawprint area is determined by 7 bits (bits 9 through 15):
+ *   0000000 is 0.5 sq in. 
+ *   1111111 is 13.2 sq in 
+ *   0100011 is 4 sq in. 
+ *
+ **/
 string DNA::readable_pawprint_area() {
     //snip dna segment:
     int area = 0x7f & (dna >> 9);
@@ -355,13 +355,13 @@ string DNA::readable_pawprint_area() {
     return output;
 }//end readable_pawprint_area
 
-/*
-readable_webbing
-
-Webbing is determined by 3 bits (bits 6 through 8). 
-000 is 1/8 webbed. 111 is fully webbed. And 011 is 
-1/2 webbed. 
-*/
+/**
+ * readable_webbing
+ * 
+ * Webbing is determined by 3 bits (bits 6 through 8). 
+ * 000 is 1/8 webbed. 111 is fully webbed. And 011 is 
+ * 1/2 webbed. 
+ **/
 string DNA::readable_webbing() {
     //snip dna segment:
     int webbing = 0x7 & (dna >> 6);
@@ -402,17 +402,17 @@ string DNA::readable_webbing() {
     return output;
 }//end readable_webbing
 
-/*
-readable_temper
-
-Temper is determined by 6 bits (bits 0 through 5). 
-000000 corresponds to the ultimate in mild-termpered-disposition. 
-000100 is extremely mild tempered. And, 111111 is "meaner than a 
-junkyard dog" - the ultimate in non-mild-temperedness. 
-
-The largest number still considered extremely mild tempered will 
-be 000111 as to match stiffness. 
-*/
+/**
+ * readable_temper
+ * 
+ * Temper is determined by 6 bits (bits 0 through 5). 
+ * 000000 corresponds to the ultimate in mild-termpered-disposition. 
+ * 000100 is extremely mild tempered. And, 111111 is "meaner than a 
+ * junkyard dog" - the ultimate in non-mild-temperedness. 
+ * 
+ * The largest number still considered extremely mild tempered will 
+ * be 000111 as to match stiffness. 
+ **/
 string DNA::readable_temper() {
     //snip dna segment:
     int temper = 0x3f & dna;
@@ -460,12 +460,12 @@ string DNA::to_string(DNA d) {
 // PRIVATE
 /////////////////////////////////////////////////////////////////
 
-/*
-get_binary_representation
-
-Will return a binary representation of the input value in a string. 
-The number of bits to print must be 1 <= bit_count <= 10. 
-*/
+/**
+ * get_binary_representation
+ * 
+ * Will return a binary representation of the input value in a string. 
+ * The number of bits to print must be 1 <= bit_count <= 10. 
+ **/
 string DNA::get_binary_representation(int value, int bit_count) {
     //error check input:
     if (bit_count < 1 || bit_count > 10) {
