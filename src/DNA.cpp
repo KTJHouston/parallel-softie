@@ -526,3 +526,15 @@ string DNA::get_binary_representation(int value, int bit_count) {
 
     return output;
 }
+
+/**
+ * rand_num
+ * 
+ * Returns a random integer [start, end).
+ **/
+int DNA::rand_num(int start, int end) {
+    int diff = end - start;
+    int r = rand() % diff;
+    r += start;
+    return r;
+}

@@ -36,4 +36,6 @@ class DNA {
 
     string get_binary_representation(int value, int bit_count);
 
+    static int rand_num(int start, int end);
+
 };
