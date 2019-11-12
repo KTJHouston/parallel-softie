@@ -3,6 +3,8 @@
 #include <string.h>
 #include <sstream>
 #include <iomanip>
+#include <stdio.h>
+#include <stdlib.h>
 
 using namespace std;
 
@@ -11,9 +13,11 @@ typedef unsigned long dna_t;
 class DNA {
     private:
     dna_t dna;
+    static bool seed_set;
 
     public:
 
+    DNA();
     DNA(dna_t dna);
 
     string readable_coat_length();

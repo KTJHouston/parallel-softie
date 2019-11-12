@@ -1,10 +1,43 @@
 #include "DNA.h"
 
 /////////////////////////////////////////////////////////////////
+// STATIC PRIVATE VARIABLES
+/////////////////////////////////////////////////////////////////
+bool DNA::seed_set = false;
+
+/////////////////////////////////////////////////////////////////
 // PUBLIC
 /////////////////////////////////////////////////////////////////
 
+/**
+ * Constructor
+ * 
+ * Create a DNA object with a reandom sequence. 
+ **/
+DNA::DNA() {
+    //set rand seed:
+    if ( !seed_set ) {
+        srand(time(0));
+        seed_set = true;
+    }
+
+    //set sequence:
+    this->dna = (rand() << 32) + rand();
+}
+
+/**
+ * Constructor
+ * 
+ * Create a DNA object with a specific sequence. 
+ **/
 DNA::DNA(dna_t dna) {
+    //set rand seed:
+    if ( !seed_set ) {
+        srand(time(0));
+        seed_set = true;
+    }
+
+    //set sequence:
     this->dna = dna;
 }
 
@@ -440,6 +473,10 @@ string DNA::readable_temper() {
     return output;
 
 }
+
+/////////////////////////////////////////////////////////////////
+// STATIC PUBLIC
+/////////////////////////////////////////////////////////////////
 
 string DNA::to_string(DNA d) {
     string output = "";
