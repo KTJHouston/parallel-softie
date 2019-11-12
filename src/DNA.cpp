@@ -538,3 +538,21 @@ int DNA::rand_num(int start, int end) {
     r += start;
     return r;
 }//end rand_num
+
+//todo delte or modify:
+/**
+ * clip
+ * 
+ * Returns only the bits of value between [start, end). 
+ * Assumed that start <= end <= 64;
+ **/
+dna_t DNA::clip(dna_t value, int start, int end) {
+    long s = 0xffffffffffffffff << start;
+    long e;
+    if (end == 64 ) {
+        e = 0xffffffffffffffff;
+    } else {
+        e = 0x7fffffffffffffff >> (63 - end);
+    }
+    return (s & e) & value;
+}//end clip
