@@ -38,4 +38,4 @@ class DNA {
 
     static int rand_num(int start, int end);
 
-};
+};//end DNA class
