@@ -7,6 +7,7 @@
 #include <stdlib.h>
 #include <vector>
 #include <math.h>
+#include <algorithm>
 
 using namespace std;
 
@@ -41,5 +42,6 @@ class DNA {
     static int rand_num(int start, int end);
     static dna_t clip(dna_t value, int start, int end);
     static dna_t multipoint_crossover(dna_t a, dna_t b, int cut_num);
+    static void mutate(dna_t &seq, int mut_num);
 
 };//end DNA class

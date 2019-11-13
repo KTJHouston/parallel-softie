@@ -606,3 +606,28 @@ dna_t DNA::multipoint_crossover(dna_t a, dna_t b, int cut_num) {
 
     return new_sequence;
 }//end multipoint_crossover
+
+/**
+ * mutate
+ * 
+ * Flips a given number of bits. The bits chosen 
+ * are entirely random, and there is no attempt 
+ * made to spread them evenly. Provided sequence 
+ * is manipulated directly. 
+ **/
+void DNA::mutate(dna_t &seq, int mut_num) {
+    vector<int> already_flipped = {};
+    for (int i = 0; i < mut_num; i++) {
+        int to_flip = rand_num(0, 64);
+        if ( !count(already_flipped.begin(), already_flipped.end(), to_flip) ) {
+            //if not already flipped:
+            dna_t to_xor = (long)(1) << to_flip;
+            seq = seq ^ to_xor;
+            already_flipped.push_back(to_flip);
+        } else {
+            //if already flipped:
+            //try again:
+            i--;
+        }
+    }
+}
