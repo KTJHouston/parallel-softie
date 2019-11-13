@@ -5,6 +5,8 @@
 #include <iomanip>
 #include <stdio.h>
 #include <stdlib.h>
+#include <vector>
+#include <math.h>
 
 using namespace std;
 
@@ -38,5 +40,6 @@ class DNA {
 
     static int rand_num(int start, int end);
     static dna_t clip(dna_t value, int start, int end);
+    static dna_t multipoint_crossover(dna_t a, dna_t b, int cut_num);
 
 };//end DNA class

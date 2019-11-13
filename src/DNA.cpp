@@ -539,7 +539,6 @@ int DNA::rand_num(int start, int end) {
     return r;
 }//end rand_num
 
-//todo delte or modify:
 /**
  * clip
  * 
@@ -556,3 +555,54 @@ dna_t DNA::clip(dna_t value, int start, int end) {
     }
     return (s & e) & value;
 }//end clip
+
+/**
+ * multipoint_crossover
+ * 
+ * Performs a multipoint crossover of the two dna 
+ * sequences with a given number of cuts. Cuts are 
+ * spread fairly evenly, but with some randomness.  
+ **/
+dna_t DNA::multipoint_crossover(dna_t a, dna_t b, int cut_num) {
+    //generate cross points:
+    vector<int> cuts(cut_num);
+    for (int i = 0; i < cut_num; i++) {
+        int start = floor(i * 64 / cut_num);
+        int end = floor((i+1) * 64 / cut_num);
+        cuts[i] = rand_num(start, end);
+    }
+
+    //random pick starting sequence:
+    dna_t current = (rand_num(0, 2)) ? a : b;
+
+    //splice new sequence:
+    dna_t new_sequence = 0;
+    int last_cut = 0;
+    for (int i = 0; i <= cuts.size(); i++) {
+        //determine end of clip:
+        int clip_end;
+        if (i == cuts.size()) {
+            clip_end = 64;
+        } else {
+            clip_end = cuts[i];
+        }
+
+        //get clip:
+        dna_t new_segment = clip(current, last_cut, clip_end);
+
+        //add clip to new sequence:
+        new_sequence = new_sequence | new_segment;
+
+        //switch sequence:
+        if (current == a) {
+            current = b;
+        } else {
+            current = a;
+        }
+
+        //set last cut:
+        last_cut = clip_end;
+    }
+
+    return new_sequence;
+}//end multipoint_crossover
