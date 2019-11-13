@@ -35,6 +35,8 @@ class DNA {
     string readable_temper();
     static string to_string(DNA d);
 
+    static DNA breed(DNA a, DNA b);
+
     private:
 
     static string get_binary_representation(int value, int bit_count);

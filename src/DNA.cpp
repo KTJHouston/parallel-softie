@@ -493,6 +493,29 @@ string DNA::to_string(DNA d) {
     return output;
 }//end to_string
 
+/**
+ * breed
+ * 
+ * Breeds two dna sequences randomly. 
+ * Has between [1, 5) crosses and 
+ * between [0, 4) mutations. 
+ **/
+DNA DNA::breed(DNA a, DNA b) {
+    //get random number of crosses:
+    int cut_num = rand_num(1, 5);
+
+    //cross:
+    dna_t child = multipoint_crossover(a.dna, b.dna, cut_num);
+
+    //get random number of mutations:
+    int mut_num = rand_num(0, 4);
+
+    //mutate:
+    mutate(child, mut_num);
+
+    return DNA(child);
+}//end breed
+
 /////////////////////////////////////////////////////////////////
 // STATIC PRIVATE
 /////////////////////////////////////////////////////////////////
