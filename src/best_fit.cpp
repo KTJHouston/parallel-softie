@@ -98,7 +98,14 @@ float eval_fg_color(string fg_color) {
 
 }
 
-//float eval_paw_color(string p_color);
+float eval_paw_color(string p_color) {
+    if(p_color.find("white") == 0) {
+        return 0.1;
+    }
+    else {
+        return 0.0;
+    }
+}
 //float eval_tail_color(string t_color);
 //float eval_t_len_and_shape(int length, string shape);
 //float eval_weight(int weight);
