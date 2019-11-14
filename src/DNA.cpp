@@ -108,7 +108,7 @@ string DNA::readable_background_color() {
         output += "bright ";
     }
     else if ( brightness >= 4 ) {
-        output += "bark ";
+        output += "dark ";
     }
 
     // Get color description:
