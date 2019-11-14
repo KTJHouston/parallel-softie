@@ -64,10 +64,10 @@ float eval_coat_length(int coat_length) {
 }
 
 float eval_stiffness(string stiffness) {
-    if(stiffness.compare("Extremely soft") == 0 || stiffness.compare("Ultimate Softness") == 0) {
+    if(stiffness.find("Extremely soft") == 0 || stiffness.find("Ultimate Softness") == 0) {
         return 0.1;
     }
-    else if(stiffness.compare("More stiff than desirable") == 0) {
+    else if(stiffness.find("More stiff than desirable") == 0) {
         return 0.05;
     }
     else {
@@ -77,7 +77,8 @@ float eval_stiffness(string stiffness) {
 }
 
 float eval_bg_color(string bg_color) {
-    if(bg_color.compare("white") == 0) {
+    //white background
+    if(bg_color.find("white") == 0) {
         return 0.1;
     }
     else {
@@ -87,7 +88,8 @@ float eval_bg_color(string bg_color) {
 }
 
 float eval_fg_color(string fg_color) {
-    if(fg_color.compare("brown") == 0){
+    //brown spots
+    if(fg_color.find("brown") == 0){
         return 0.1;
     }
     else {
