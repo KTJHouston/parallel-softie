@@ -3,6 +3,7 @@
 
 using namespace std;
 
+float eval_coat_length(int coat_length);
 /***
  * best_fit function
  * 
@@ -28,10 +29,16 @@ using namespace std;
 float best_fit(DNA dog) {
     float eval = 0.0;
     //coat_length
-    if(dog.readable_coat_length >= 8)
-        eval += 0.1;
+    eval += eval_coat_length(stoi(dog.readable_coat_length));
+
+float eval_coat_length(int coat_length) { 
+    if(coat_length >= 8) {
+        return 0.1;
+    }
+    else if(coat_length >= 4) {
+        return 0.05;
+    }
     else {
-        /* code */
     }
     //coat stiffness
     if(dog.readable_stiffness == "Extremely soft" || dog.readable_stiffness == "Ultimate Softness") {
