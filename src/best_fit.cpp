@@ -5,6 +5,7 @@ using namespace std;
 
 float eval_coat_length(int coat_length);
 float eval_stiffness(string stiffness);
+float eval_bg_color(string bg_color);
 /***
  * best_fit function
  * 
@@ -34,6 +35,8 @@ float best_fit(DNA dog) {
 
     //coat stiffness
     eval += eval_stiffness(dog.readable_stiffness);
+    //coat color
+    eval += eval_bg_color(dog.readable_background_color);
 float eval_coat_length(int coat_length) { 
     if(coat_length >= 8) {
         return 0.1;
@@ -42,6 +45,7 @@ float eval_coat_length(int coat_length) {
         return 0.05;
     }
     else {
+        return 0.0;
     }
 }
 
@@ -55,15 +59,16 @@ float eval_stiffness(string stiffness) {
     else {
         return 0.0;
     }
-    //coat color
-    if(dog.readable_background_color == "white"){
-        eval += 0.1;
+    
+}
+
+float eval_bg_color(string bg_color) {
+    if(bg_color.compare("white") == 0) {
+        return 0.1;
     }
     else {
-        /* code */
+        return 0.0;
     }
-    if(dog.readable_foreground_color == "brown"){
-        eval += 0.1;
     }
     else {
         /* code */
