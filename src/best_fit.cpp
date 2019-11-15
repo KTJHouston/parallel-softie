@@ -47,6 +47,8 @@ float best_fit(DNA dog) {
     //coat color
     eval += eval_bg_color(dog.readable_background_color);
     eval += eval_fg_color(dog.readable_foreground_color);
+    eval += eval_paw_color(dog.readable_paw_and_tail);
+    eval += eval_tail_color(dog.readable_paw_and_tail);
 
     return eval;
 }
@@ -99,7 +101,8 @@ float eval_fg_color(string fg_color) {
 }
 
 float eval_paw_color(string p_color) {
-    if(p_color.find("white") == 0) {
+    string paw_snip = p_color.substr(0,p_color.find_first_of("paws"));
+    if(paw_snip.find("white") == 0) {
         return 0.1;
     }
     else {
