@@ -43,12 +43,12 @@ float best_fit(DNA dog) {
     eval += eval_coat_length(dog.readable_coat_length());
 
     //coat stiffness
-    eval += eval_stiffness(dog.readable_stiffness);
+    eval += eval_stiffness(dog.readable_stiffness());
     //coat color
-    eval += eval_bg_color(dog.readable_background_color);
-    eval += eval_fg_color(dog.readable_foreground_color);
-    eval += eval_paw_color(dog.readable_paw_and_tail);
-    eval += eval_tail_color(dog.readable_paw_and_tail);
+    eval += eval_bg_color(dog.readable_background_color());
+    eval += eval_fg_color(dog.readable_foreground_color());
+    eval += eval_paw_color(dog.readable_paw_and_tail());
+    eval += eval_tail_color(dog.readable_paw_and_tail());
 
     return eval;
 }
@@ -194,7 +194,7 @@ float eval_paw_color(string p_color) {
  * 
  ***/
 float eval_tail_color(string t_color) {
-    string tail_snip = t_color.substr(t_color.find_first_of("paws"), t_color.end);
+    string tail_snip = t_color.substr(t_color.find_first_of("paws"), t_color.length());
     if(tail_snip.find("black") == 0) {
         return 0.1;
     }
