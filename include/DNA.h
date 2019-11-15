@@ -1,3 +1,6 @@
+#ifndef DNA_H    // To make sure you don't declare the function more than once by including the header multiple times.
+#define DNA_H
+
 #include <iostream>
 #include <string>
 #include <string.h>
@@ -33,3 +36,5 @@ class DNA {
     string get_binary_representation(int value, int bit_count);
 
 };
+
+#endif //DNA_H
