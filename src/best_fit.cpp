@@ -6,9 +6,9 @@ using namespace std;
 float eval_coat_length(int coat_length);
 float eval_stiffness(string stiffness);
 float eval_bg_color(string bg_color);
-//float eval_fg_color(string fg_color);
-//float eval_paw_color(string p_color);
-//float eval_tail_color(string t_color);
+float eval_fg_color(string fg_color);
+float eval_paw_color(string p_color);
+float eval_tail_color(string t_color);
 //float eval_t_len_and_shape(int length, string shape);
 //float eval_weight(int weight);
 //float eval_pp_area(int sq_inches);
@@ -106,7 +106,17 @@ float eval_paw_color(string p_color) {
         return 0.0;
     }
 }
-//float eval_tail_color(string t_color);
+
+float eval_tail_color(string t_color) {
+    string tail_snip = t_color.substr(t_color.find_first_of("paws"), t_color.end);
+    if(tail_snip.find("black") == 0) {
+        return 0.1;
+    }
+    else {
+        return 0.0;
+    }
+}
+
 //float eval_t_len_and_shape(int length, string shape);
 //float eval_weight(int weight);
 //float eval_pp_area(int sq_inches);
