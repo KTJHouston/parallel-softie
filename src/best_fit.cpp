@@ -1,9 +1,10 @@
 
+#include <iostream>
 #include "DNA.h"
 
 using namespace std;
 
-float eval_coat_length(int coat_length);
+float eval_coat_length(string coat_length);
 float eval_stiffness(string stiffness);
 float eval_bg_color(string bg_color);
 float eval_fg_color(string fg_color);
@@ -39,7 +40,7 @@ float eval_tail_color(string t_color);
 float best_fit(DNA dog) {
     float eval = 0.0;
     //coat_length
-    eval += eval_coat_length(stoi(dog.readable_coat_length));
+    eval += eval_coat_length(dog.readable_coat_length());
 
     //coat stiffness
     eval += eval_stiffness(dog.readable_stiffness);
@@ -65,11 +66,17 @@ float best_fit(DNA dog) {
  * @param int coat_length
  * 
  ***/
-float eval_coat_length(int coat_length) { 
-    if(coat_length >= 8) {
+float eval_coat_length(string coat_length) {
+    int start = coat_length.find_first_of("]") + 1; 
+    int end = coat_length.find_first_of("i") - start;
+    string new_coat_length = coat_length.substr(start, end);
+    cout << "DEBUG: coat_length in eval coat_length is : " << new_coat_length << endl;
+    int coat_len = std::stoi(new_coat_length);
+    
+    if(coat_len >= 8) {
         return 0.1;
     }
-    else if(coat_length >= 4) {
+    else if(coat_len >= 4) {
         return 0.05;
     }
     else {
