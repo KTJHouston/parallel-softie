@@ -213,10 +213,10 @@ string DNA::readable_paw_and_tail() {
     
     // Get paw color:
     if ( paw == 0 ) {
-        output += "White paws ";
+        output += "White paws, ";
     }
     else {
-        output += "Any color paws";
+        output += "Any color paws, ";
     }
 
     // Get tail color:
