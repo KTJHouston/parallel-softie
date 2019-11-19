@@ -9,7 +9,7 @@ _OBJ = test.o DNA.o best_fit.o
 OBJ = $(patsubst %,$(ODIR)/%,$(_OBJ))
 
 CC = g++
-CFLAGS = -I$(IDIR) -std=c++11
+CFLAGS = -I$(IDIR) -std=c++14
 EXE = softie.exe
 
 $(ODIR)/%.o: $(SOURCE)/%.cpp $(DEPS) 

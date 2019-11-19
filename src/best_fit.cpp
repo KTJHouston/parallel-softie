@@ -40,7 +40,7 @@ float eval_tail_color(string t_color);
 float best_fit(DNA dog) {
     float eval = 0.0;
     //coat_length
-    eval += eval_coat_length(dog.readable_coat_length());
+    eval = eval + eval_coat_length(dog.readable_coat_length()); 
 
     //coat stiffness
     eval += eval_stiffness(dog.readable_stiffness());
@@ -48,7 +48,7 @@ float best_fit(DNA dog) {
     eval += eval_bg_color(dog.readable_background_color());
     eval += eval_fg_color(dog.readable_foreground_color());
     eval += eval_paw_color(dog.readable_paw_and_tail());
-    eval += eval_tail_color(dog.readable_paw_and_tail());
+    eval = eval + eval_tail_color(dog.readable_paw_and_tail());
 
     return eval;
 }
@@ -67,19 +67,25 @@ float best_fit(DNA dog) {
  * 
  ***/
 float eval_coat_length(string coat_length) {
+    //cut away the printed english from the readable statement
     int start = coat_length.find_first_of("]") + 1; 
     int end = coat_length.find_first_of("i") - start;
     string new_coat_length = coat_length.substr(start, end);
-    cout << "DEBUG: coat_length in eval coat_length is : " << new_coat_length << endl;
+    //convert to integer (no negeative lengths allowed)
     int coat_len = std::stoi(new_coat_length);
     
+    //evaluate
     if(coat_len >= 8) {
+        cout << "DEBUG: coat_eval returns 0.1" << endl;
         return 0.1;
     }
     else if(coat_len >= 4) {
+        cout << "DEBUG: coat_eval returns 0.05" << endl;
         return 0.05;
     }
     else {
+        
+        cout << "DEBUG: coat_eval returns 0.0" << endl;
         return 0.0;
     }
 }
@@ -98,13 +104,17 @@ float eval_coat_length(string coat_length) {
  * 
  ***/
 float eval_stiffness(string stiffness) {
-    if(stiffness.find("Extremely soft") == 0 || stiffness.find("Ultimate Softness") == 0) {
+    size_t found = stiffness.find("soft");
+    if(found!=string::npos) {
+        cout << "DEBUG: coat_stiffness returns 0.1" << endl;
         return 0.1;
     }
-    else if(stiffness.find("More stiff than desirable") == 0) {
+    else if(stiffness.find("More stiff than desirable") != string::npos) {
+        cout << "DEBUG: coat_stiffness returns 0.05" << endl;
         return 0.05;
     }
     else {
+        cout << "DEBUG: coat_stiffness returns 0.0" << endl;
         return 0.0;
     }
     
@@ -124,10 +134,13 @@ float eval_stiffness(string stiffness) {
  ***/
 float eval_bg_color(string bg_color) {
     //white background
-    if(bg_color.find("white") == 0) {
+    size_t found = bg_color.find("white");
+    if(found!=string::npos) {
+        cout << "DEBUG: bg_color returns 0.1" << endl;
         return 0.1;
     }
     else {
+        cout << "DEBUG: bg_color returns 0.0" << endl;
         return 0.0;
     }
   
@@ -148,10 +161,13 @@ float eval_bg_color(string bg_color) {
  ***/
 float eval_fg_color(string fg_color) {
     //brown spots
-    if(fg_color.find("brown") == 0){
+    size_t found = fg_color.find("brown");
+    if(found!=string::npos) {
+        cout << "DEBUG: fg_color returns 0.1" << endl;
         return 0.1;
     }
     else {
+        cout << "DEBUG: fg_color returns 0.0" << endl;
         return 0.0;
     }
 
@@ -171,11 +187,14 @@ float eval_fg_color(string fg_color) {
  * 
  ***/
 float eval_paw_color(string p_color) {
-    string paw_snip = p_color.substr(0,p_color.find_first_of("paws"));
-    if(paw_snip.find("white") == 0) {
+    string paw_snip = p_color.substr(6, 6);
+    size_t found = paw_snip.find("white");
+    if(found!=string::npos) {
+        cout << "DEBUG: paw_color returns 0.1" << endl;
         return 0.1;
     }
     else {
+        cout << "DEBUG: paw_color returns 0.0" << endl;
         return 0.0;
     }
 }
@@ -194,11 +213,14 @@ float eval_paw_color(string p_color) {
  * 
  ***/
 float eval_tail_color(string t_color) {
-    string tail_snip = t_color.substr(t_color.find_first_of("paws"), t_color.length());
-    if(tail_snip.find("black") == 0) {
+    string tail_snip = t_color.substr(t_color.find_first_of(",") + 2, 6);
+    size_t found = tail_snip.find("black");
+    if(found!=string::npos) {
+        cout << "DEBUG: tail_color returns 0.1" << endl;
         return 0.1;
     }
     else {
+        cout << "DEBUG: tail_color returns 0.0" << endl;
         return 0.0;
     }
 }

@@ -1,6 +1,7 @@
 #include <iostream>
 #include <string>
 
+#include "best_fit.h"
 #include "DNA.h"
 
 using namespace std;
@@ -23,13 +24,18 @@ int main(int argc, char** argv) {
      * temper         : 0    : 64
      * ****/
     //print out all possibles values of one attribute
-    for (long i = 0; i < 1024; i++) {
+    /*
+     for (long i = 0; i < 1024; i++) {
         long input = i << 16;
         DNA d = DNA(input);
         cout << d.readable_weight() << endl;
         cout.flush();
     }
-    
-    //DNA d = DNA(8);
-    //cout << DNA::to_string(d) << endl;
+    */
+    unsigned long input = 0b1111111000000111000000000101010001010100110100011011010111000100;
+    DNA d = DNA(input);
+    cout << DNA::to_string(d) << endl;
+    float evaluation = best_fit(d);
+    cout << "Best Fit Percentage: " << evaluation << endl;
+
 }
