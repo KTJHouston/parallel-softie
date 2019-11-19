@@ -10,7 +10,7 @@ float eval_bg_color(string bg_color);
 float eval_fg_color(string fg_color);
 float eval_paw_color(string p_color);
 float eval_tail_color(string t_color);
-//float eval_t_len_and_shape(int length, string shape);
+float eval_t_len_and_shape(string length_shape);
 //float eval_weight(int weight);
 //float eval_pp_area(int sq_inches);
 //float eval_webbing(string webbing);
@@ -49,6 +49,7 @@ float best_fit(DNA dog) {
     eval += eval_fg_color(dog.readable_foreground_color());
     eval += eval_paw_color(dog.readable_paw_and_tail());
     eval = eval + eval_tail_color(dog.readable_paw_and_tail());
+    eval = eval + eval_t_len_and_shape(dog.readable_tail_length_and_shape());
 
     return eval;
 }
@@ -225,7 +226,36 @@ float eval_tail_color(string t_color) {
     }
 }
 
-// TODO: float eval_t_len_and_shape(int length, string shape);
+float eval_t_len_and_shape(string length_shape){
+    float eval = 0.0;
+    size_t found = length_shape.find("tailless");
+    if(found != string::npos){
+        cout << "DEBUG: length returns 0.0" << endl;
+        return eval;
+    }
+    //evaluate the tail_length
+    string length_snip = length_shape.substr(length_shape.find_first_of("]") + 2, 4);
+    float tail_length = std::stof(length_snip);
+    cout << "LENGTH_SHAPE length_snip : " << tail_length << endl;
+
+    if(tail_length >= 4 && tail_length <= 6){
+        cout << "DEBUG: length returns 0.05" << endl;
+        eval += 0.05;
+    }
+
+    //evaluate the tail shape
+    found = length_shape.find("straight-up");
+    if(found != string::npos){
+        cout << "DEBUG: shape returns 0.05" << endl;
+        eval += 0.05;
+    }
+    else {
+        cout << "DEBUG: shape returns 0.0" << endl;
+    }
+
+    return eval;
+
+}
 // TODO: float eval_weight(int weight);
 // TODO: float eval_pp_area(int sq_inches);
 // TODO: float eval_webbing(string webbing);

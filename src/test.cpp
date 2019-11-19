@@ -32,7 +32,7 @@ int main(int argc, char** argv) {
         cout.flush();
     }
     */
-    unsigned long input = 0b1111111000000111000000000101010001010100110100011011010111000100;
+    unsigned long input = 0b1111111000000111000000000101001110010000110100011011010111000100;
     DNA d = DNA(input);
     cout << DNA::to_string(d) << endl;
     float evaluation = best_fit(d);
