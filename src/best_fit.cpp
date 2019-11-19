@@ -11,7 +11,7 @@ float eval_fg_color(string fg_color);
 float eval_paw_color(string p_color);
 float eval_tail_color(string t_color);
 float eval_t_len_and_shape(string length_shape);
-//float eval_weight(int weight);
+float eval_weight(string weight);
 //float eval_pp_area(int sq_inches);
 //float eval_webbing(string webbing);
 //float eval_temper(string temper);
@@ -50,6 +50,7 @@ float best_fit(DNA dog) {
     eval += eval_paw_color(dog.readable_paw_and_tail());
     eval = eval + eval_tail_color(dog.readable_paw_and_tail());
     eval = eval + eval_t_len_and_shape(dog.readable_tail_length_and_shape());
+    eval = eval + eval_weight(dog.readable_weight());
 
     return eval;
 }
@@ -226,6 +227,18 @@ float eval_tail_color(string t_color) {
     }
 }
 
+/***
+ * eval_t_len_and_shape function
+ * 
+ * evaluates the dog's tail length and shape
+ * to see how close it is to the softie
+ * 
+ * Desirable softie : 4 to 6 inches, straight-up
+ * 
+ * @returns float
+ * @param string length_shape
+ * 
+ ***/
 float eval_t_len_and_shape(string length_shape){
     float eval = 0.0;
     size_t found = length_shape.find("tailless");
@@ -234,9 +247,8 @@ float eval_t_len_and_shape(string length_shape){
         return eval;
     }
     //evaluate the tail_length
-    string length_snip = length_shape.substr(length_shape.find_first_of("]") + 2, 4);
+    string length_snip = length_shape.substr(length_shape.find_first_of("]") + 2, length_shape.find_first_of("i") - 1);
     float tail_length = std::stof(length_snip);
-    cout << "LENGTH_SHAPE length_snip : " << tail_length << endl;
 
     if(tail_length >= 4 && tail_length <= 6){
         cout << "DEBUG: length returns 0.05" << endl;
@@ -256,7 +268,32 @@ float eval_t_len_and_shape(string length_shape){
     return eval;
 
 }
-// TODO: float eval_weight(int weight);
+
+/***
+ * eval_weight function
+ * 
+ * evaluates the dog's weight
+ * to see how close it is to the softie
+ * 
+ * Desirable softie : 90+ kg
+ * 
+ * @returns float
+ * @param string weight
+ * 
+ ***/
+float eval_weight(string weight){
+    string weight_snip = weight.substr(weight.find_first_of("]") + 2, weight.find_first_of("k") - 1); 
+    float weight_new = std::stof(weight_snip);
+    if(weight_new >= 90){
+        cout << "DEBUG: weight returns 0.1" << endl;
+        return 0.1;
+    }
+    else{
+        cout << "DEBUG: weight returns 0.0" << endl;
+        return 0.0;
+    }
+    
+}
 // TODO: float eval_pp_area(int sq_inches);
 // TODO: float eval_webbing(string webbing);
 // TODO: float eval_temper(string temper);
