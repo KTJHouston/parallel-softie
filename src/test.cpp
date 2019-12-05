@@ -33,7 +33,12 @@ int main(int argc, char** argv) {
     }
     */
     unsigned long input = 0b1111111000000111000000000101001111110011110100011011010111000100;
-    DNA d = DNA(input);
+
+    unsigned long softie =  0b1111001000000111000000000101001100100010110100001011010111000100;
+    unsigned long failure = 0b0000000000000000000000000000000000000000000000000000000000000000;
+
+
+    DNA d = DNA(failure);
     cout << DNA::to_string(d) << endl;
     float evaluation = best_fit(d);
     cout << "Best Fit Percentage: " << evaluation << endl;

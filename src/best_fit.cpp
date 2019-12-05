@@ -2,6 +2,8 @@
 #include <iostream>
 #include "DNA.h"
 
+#define DEBUG true
+
 using namespace std;
 
 float eval_coat_length(long dna);
@@ -60,7 +62,9 @@ float best_fit(DNA dog) {
     //temper
     eval = eval + eval_temper(dog.to_number());
     
-    if(eval > 1.0){
+    if(DEBUG) { cout << "DEBUG: Eval is " << eval << endl; }
+    
+    if(eval >= 1.1){
         cout << "EVAL ERROR: Percentage greater than 100%" << endl;
         return -1;
     }
@@ -91,11 +95,13 @@ float eval_coat_length(long dna) {
     
     //evaluate
     if(length_inches >= 8) {
-        cout << "DEBUG: coat_eval returns 0.1" << endl;
+        if(DEBUG) { cout << "DEBUG: coat_eval returns 0.1" << endl; }
         return 0.1;
     }
     else {
-        return (length_inches / 8) * 0.1;
+        float eval = (length_inches / 8) * 0.1;
+        if(DEBUG) { cout << "DEBUG: coat_eval returns " << eval << endl; }
+        return eval;
     }
 }
 
@@ -117,16 +123,13 @@ float eval_stiffness(long dna) {
     int stiffness = 0x3f & (dna >> 50);
 
     if(stiffness < 8) {
-        cout << "DEBUG: coat_stiffness returns 0.1" << endl;
+        if(DEBUG) { cout << "DEBUG: coat_stiffness returns 0.1" << endl; }
         return 0.1;
     }
-    else if(stiffness < 57) {
-        cout << "DEBUG: coat_stiffness returns 0.05" << endl;
-        return 0.05;
-    }
     else {
-        cout << "DEBUG: coat_stiffness returns 0.0" << endl;
-        return 0.0;
+        float eval = 0.1 - ((stiffness / 8) * 0.1);
+        if(DEBUG) { cout << "DEBUG: coat_stiffness returns " << eval << endl; }
+        return eval;
     }
     
 }
@@ -147,11 +150,11 @@ float eval_bg_color(string bg_color) {
     //white background
     size_t found = bg_color.find("white");
     if(found!=string::npos) {
-        cout << "DEBUG: bg_color returns 0.1" << endl;
+        if(DEBUG) { cout << "DEBUG: bg_color returns 0.1" << endl; }
         return 0.1;
     }
     else {
-        cout << "DEBUG: bg_color returns 0.0" << endl;
+        if(DEBUG) { cout << "DEBUG: bg_color returns 0.0" << endl; }
         return 0.0;
     }
   
@@ -174,11 +177,11 @@ float eval_fg_color(string fg_color) {
     //brown spots
     size_t found = fg_color.find("brown");
     if(found!=string::npos) {
-        cout << "DEBUG: fg_color returns 0.1" << endl;
+        if(DEBUG) { cout << "DEBUG: fg_color returns 0.1" << endl; }
         return 0.1;
     }
     else {
-        cout << "DEBUG: fg_color returns 0.0" << endl;
+        if(DEBUG) { cout << "DEBUG: fg_color returns 0.0" << endl; }
         return 0.0;
     }
 
@@ -201,11 +204,11 @@ float eval_paw_color(string p_color) {
     string paw_snip = p_color.substr(6, 6);
     size_t found = paw_snip.find("white");
     if(found!=string::npos) {
-        cout << "DEBUG: paw_color returns 0.1" << endl;
-        return 0.1;
+        if(DEBUG) { cout << "DEBUG: paw_color returns 0.05" << endl; }
+        return 0.05;
     }
     else {
-        cout << "DEBUG: paw_color returns 0.0" << endl;
+        if(DEBUG) { cout << "DEBUG: paw_color returns 0.0" << endl; }
         return 0.0;
     }
 }
@@ -227,11 +230,11 @@ float eval_tail_color(string t_color) {
     string tail_snip = t_color.substr(t_color.find_first_of(",") + 2, 6);
     size_t found = tail_snip.find("black");
     if(found!=string::npos) {
-        cout << "DEBUG: tail_color returns 0.1" << endl;
-        return 0.1;
+        if(DEBUG) { cout << "DEBUG: tail_color returns 0.05" << endl; }
+        return 0.05;
     }
     else {
-        cout << "DEBUG: tail_color returns 0.0" << endl;
+        if(DEBUG) { cout << "DEBUG: tail_color returns 0.0" << endl; }
         return 0.0;
     }
 }
@@ -256,23 +259,23 @@ float eval_t_len_and_shape(long dna){
     int tail_shape = 0x3 & (dna >> 26);
 
     if(tail_length == 0){
-        cout << "DEBUG: length returns 0.0" << endl;
+        if(DEBUG) { cout << "DEBUG: length returns 0.0" << endl; }
         return eval;
     }
     float length_inches = tail_length * .1;
 
     if(length_inches >= 4 && length_inches <= 6){
-        cout << "DEBUG: length returns 0.05" << endl;
+        if(DEBUG) { cout << "DEBUG: length returns 0.05" << endl; }
         eval += 0.05;
     }
 
     //evaluate the tail shape
     if(tail_shape == 0){
-        cout << "DEBUG: shape returns 0.05" << endl;
+        if(DEBUG) { cout << "DEBUG: shape returns 0.05" << endl; }
         eval += 0.05;
     }
     else {
-        cout << "DEBUG: shape returns 0.0" << endl;
+        if(DEBUG) { cout << "DEBUG: shape returns 0.0" << endl; }
     }
 
     return eval;
@@ -298,11 +301,13 @@ float eval_weight(long dna){
     float total = weight + (incremental_weight * 0.125);
     
    if(total >= 90){
-        cout << "DEBUG: weight returns 0.1" << endl;
+        if(DEBUG) { cout << "DEBUG: weight returns 0.1" << endl; }
         return 0.1;
     }
     else{
-        return (weight / 90) * 0.1;
+        float eval = (weight / 90) * 0.1;
+        if(DEBUG) { cout << "DEBUG: weight returns " << eval << endl; }
+        return eval;
     }
     
 }
@@ -328,10 +333,13 @@ float eval_pp_area(long dna){
 
     //evaluate
     if(area_inches > 9){
+        if(DEBUG) { cout << "DEBUG: weight returns 0.1" << endl; }
         return 0.1;
     }
     else{
-        return (area_inches / 9) * 0.1;
+        float eval = (area_inches / 9) * 0.1;
+        if(DEBUG) { cout << "DEBUG: weight returns " << eval << endl; }
+        return eval;
     }
 
 }
@@ -352,7 +360,9 @@ float eval_webbing(long dna){
     //snip dna segment:
     int webbing = 0x7 & (dna >> 6);
 
-    return (webbing / 7) * 0.1;
+    float eval = (webbing / 7) * 0.1;
+    if(DEBUG) { cout << "DEBUG: webbing returns " << eval << endl; }
+    return eval;
 
 }
 
@@ -372,10 +382,13 @@ float eval_temper(long dna){
     int temper = 0x3f & dna;
 
     if(temper < 8){
+        if(DEBUG) { cout << "DEBUG: temper returns 0.1" << endl; }
         return 0.1;
     }
     else {
-        return 0.1 - ((temper / 8) * 0.1);
+        float eval = 0.1 - ((temper / 8) * 0.1);
+        if(DEBUG) { cout << "DEBUG: temper returns " << eval << endl; }
+        return eval;
     }
 
 }
