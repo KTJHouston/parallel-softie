@@ -105,16 +105,18 @@ float eval_coat_length(long dna) {
  * Close but not quite : More stiff than desirable
  * 
  * @returns float
- * @param string stiffness
+ * @param long dna
  * 
+ * NOT TESTED
  ***/
-float eval_stiffness(string stiffness) {
-    size_t found = stiffness.find("soft");
-    if(found!=string::npos) {
+float eval_stiffness(long dna) {
+    int stiffness = 0x3f & (dna >> 50);
+
+    if(stiffness < 8) {
         cout << "DEBUG: coat_stiffness returns 0.1" << endl;
         return 0.1;
     }
-    else if(stiffness.find("More stiff than desirable") != string::npos) {
+    else if(stiffness < 57) {
         cout << "DEBUG: coat_stiffness returns 0.05" << endl;
         return 0.05;
     }
