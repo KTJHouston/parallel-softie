@@ -303,6 +303,35 @@ float eval_weight(long dna){
     }
     
 }
-// TODO: float eval_pp_area(int sq_inches);
-// TODO: float eval_webbing(string webbing);
+
+/***
+ * eval_pp_area function
+ * 
+ * evaluates the dog's paw print area
+ * to see how close it is to the softie
+ * 
+ * Desirable softie : Greater than 9 sq. in
+ * 
+ * @returns float
+ * @param long dna
+ * NOT TESTED
+ ***/
+float eval_pp_area(long dna){
+    //snip dna segment:
+    int area = 0x7f & (dna >> 9);
+    
+    //offset dna int by 0.5 sq inches:
+    float area_inches = (area * 0.1) + 0.5;
+
+    //evaluate
+    if(area_inches > 9){
+        return 0.1
+    }
+    else{
+        return area_inches * 0.1;
+    }
+
+}
+
+//TODO: float eval_webbing(string webbing);
 // TODO: float eval_temper(string temper);
