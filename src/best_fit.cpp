@@ -94,13 +94,8 @@ float eval_coat_length(long dna) {
         cout << "DEBUG: coat_eval returns 0.1" << endl;
         return 0.1;
     }
-    else if(length_inches >= 4) {
-        cout << "DEBUG: coat_eval returns 0.05" << endl;
-        return 0.05;
-    }
     else {
-        cout << "DEBUG: coat_eval returns 0.0" << endl;
-        return 0.0;
+        return (length_inches / 8) * 0.1;
     }
 }
 
@@ -333,7 +328,7 @@ float eval_pp_area(long dna){
 
     //evaluate
     if(area_inches > 9){
-        return 0.1
+        return 0.1;
     }
     else{
         return (area_inches / 9) * 0.1;
@@ -347,7 +342,7 @@ float eval_pp_area(long dna){
  * evaluates the dog's paw webbing percentage
  * to see how close it is to the softie
  * 
- * Desirable softie : Greater than 9 sq. in
+ * Desirable softie : Fully webbed toes
  * 
  * @returns float
  * @param long dna
