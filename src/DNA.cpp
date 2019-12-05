@@ -61,10 +61,10 @@ string DNA::readable_stiffness() {
     else if ( stiffness < 8 ) {
         output += "Extremely soft";
     }
-    else if ( stiffness == 0x3f ) {
+    else if ( stiffness == 63 ) {
         output += "Ultimate stiff";
     }
-    else if ( stiffness > 0x38 ) {
+    else if ( stiffness > 56 ) {
         output += "Extremely stiff";
     }
     else  {
@@ -455,6 +455,10 @@ string DNA::to_string(DNA d) {
     output += d.readable_temper();
     return output;
 }//end to_string
+
+long DNA::to_number() {
+    return this->dna;
+}
 
 /////////////////////////////////////////////////////////////////
 // PRIVATE

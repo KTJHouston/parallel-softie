@@ -4,15 +4,15 @@
 
 using namespace std;
 
-float eval_coat_length(string coat_length);
-float eval_stiffness(string stiffness);
+float eval_coat_length(long dna);
+float eval_stiffness(long dna);
 float eval_bg_color(string bg_color);
 float eval_fg_color(string fg_color);
 float eval_paw_color(string p_color);
 float eval_tail_color(string t_color);
-float eval_t_len_and_shape(string length_shape);
-float eval_weight(string weight);
-//float eval_pp_area(int sq_inches);
+float eval_t_len_and_shape(long dna);
+float eval_weight(long dna);
+float eval_pp_area(long dna);
 //float eval_webbing(string webbing);
 //float eval_temper(string temper);
 
@@ -39,18 +39,22 @@ float eval_weight(string weight);
  * ***/   
 float best_fit(DNA dog) {
     float eval = 0.0;
-    //coat_length
-    eval = eval + eval_coat_length(dog.readable_coat_length()); 
 
+    //coat_length
+    eval = eval + eval_coat_length(dog.to_number()); 
     //coat stiffness
-    eval += eval_stiffness(dog.readable_stiffness());
+    eval += eval_stiffness(dog.to_number());
     //coat color
     eval += eval_bg_color(dog.readable_background_color());
     eval += eval_fg_color(dog.readable_foreground_color());
     eval += eval_paw_color(dog.readable_paw_and_tail());
     eval = eval + eval_tail_color(dog.readable_paw_and_tail());
-    eval = eval + eval_t_len_and_shape(dog.readable_tail_length_and_shape());
-    eval = eval + eval_weight(dog.readable_weight());
+    //tail length and shape
+    eval = eval + eval_t_len_and_shape(dog.to_number());
+    //weight
+    eval = eval + eval_weight(dog.to_number());
+    //paw print area
+    eval = eval + eval_pp_area(dog.to_number());
 
     return eval;
 }

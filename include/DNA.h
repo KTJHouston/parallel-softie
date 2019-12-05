@@ -30,6 +30,7 @@ class DNA {
     string readable_webbing();
     string readable_temper();
     static string to_string(DNA d);
+    long to_number();
 
     private:
 
