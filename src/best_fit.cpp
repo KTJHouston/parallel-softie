@@ -69,28 +69,27 @@ float best_fit(DNA dog) {
  * Close but not quite : 4 - 8 inches
  * 
  * @returns float
- * @param int coat_length
- * 
+ * @param long dna
+ * NOT TESTED
  ***/
-float eval_coat_length(string coat_length) {
-    //cut away the printed english from the readable statement
-    int start = coat_length.find_first_of("]") + 1; 
-    int end = coat_length.find_first_of("i") - start;
-    string new_coat_length = coat_length.substr(start, end);
-    //convert to integer (no negeative lengths allowed)
-    int coat_len = std::stoi(new_coat_length);
+float eval_coat_length(long dna) {
+    //snip dna segment:
+    int length_bits = 0xff & (dna >> 56);
+
+    //convert dna segment to length in inches:
+    float bits_to_inches_ratio = 10.2 / 255;
+    float length_inches = length_bits * bits_to_inches_ratio;
     
     //evaluate
-    if(coat_len >= 8) {
+    if(length_inches >= 8) {
         cout << "DEBUG: coat_eval returns 0.1" << endl;
         return 0.1;
     }
-    else if(coat_len >= 4) {
+    else if(length_inches >= 4) {
         cout << "DEBUG: coat_eval returns 0.05" << endl;
         return 0.05;
     }
     else {
-        
         cout << "DEBUG: coat_eval returns 0.0" << endl;
         return 0.0;
     }
