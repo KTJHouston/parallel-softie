@@ -428,10 +428,10 @@ string DNA::readable_temper() {
     else if ( temper < 8 ) {
         output += "Extremely mild tempered";
     }
-    else if ( temper == 0x3f ) {
+    else if ( temper == 63 ) {
         output += "Ultimate non-mild-temperedness";
     }
-    else if ( temper > 0x38 ) {
+    else if ( temper > 56 ) {
         output += "Extremely unmild tempered";
     }
     else  {

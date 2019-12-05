@@ -13,8 +13,8 @@ float eval_tail_color(string t_color);
 float eval_t_len_and_shape(long dna);
 float eval_weight(long dna);
 float eval_pp_area(long dna);
-float eval_webbing(string webbing);
-//float eval_temper(string temper);
+float eval_webbing(long dna);
+float eval_temper(long dna);
 
 /***
  * best_fit function
@@ -55,6 +55,15 @@ float best_fit(DNA dog) {
     eval = eval + eval_weight(dog.to_number());
     //paw print area
     eval = eval + eval_pp_area(dog.to_number());
+    //webbing
+    eval = eval + eval_webbing(dog.to_number());
+    //temper
+    eval = eval + eval_temper(dog.to_number());
+    
+    if(eval > 1.0){
+        cout << "EVAL ERROR: Percentage greater than 100%" << endl;
+        return -1;
+    }
 
     return eval;
 }
@@ -352,4 +361,26 @@ float eval_webbing(long dna){
 
 }
 
-// TODO: float eval_temper(string temper);
+/***
+ * eval_temper function
+ * 
+ * evaluates the dog's tempermant
+ * to see how close it is to the softie
+ * 
+ * Desirable softie : Extremely Mild Tempered
+ * 
+ * @returns float
+ * @param long dna
+ * NOT TESTED
+ ***/
+float eval_temper(long dna){
+    int temper = 0x3f & dna;
+
+    if(temper < 8){
+        return 0.1;
+    }
+    else {
+        return 0.1 - ((temper / 8) * 0.1);
+    }
+
+}
