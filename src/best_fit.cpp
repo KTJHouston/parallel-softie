@@ -284,13 +284,16 @@ float eval_t_len_and_shape(long dna){
  * Desirable softie : 90+ kg
  * 
  * @returns float
- * @param string weight
- * 
+ * @param long dna
+ * NOT TESTED
  ***/
-float eval_weight(string weight){
-    string weight_snip = weight.substr(weight.find_first_of("]") + 2, weight.find_first_of("k") - 1); 
-    float weight_new = std::stof(weight_snip);
-    if(weight_new >= 90){
+float eval_weight(long dna){
+
+    int weight = 0x7f & (dna >> 19);
+    int incremental_weight = 0x7 & (dna >> 16);
+    float total = weight + (incremental_weight * 0.125);
+    
+   if(total >= 90){
         cout << "DEBUG: weight returns 0.1" << endl;
         return 0.1;
     }
