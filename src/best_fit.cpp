@@ -298,8 +298,7 @@ float eval_weight(long dna){
         return 0.1;
     }
     else{
-        cout << "DEBUG: weight returns 0.0" << endl;
-        return 0.0;
+        return (weight / 90) * 0.1;
     }
     
 }
@@ -328,7 +327,7 @@ float eval_pp_area(long dna){
         return 0.1
     }
     else{
-        return area_inches * 0.1;
+        return (area_inches / 9) * 0.1;
     }
 
 }
