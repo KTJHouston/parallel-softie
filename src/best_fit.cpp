@@ -13,7 +13,7 @@ float eval_tail_color(string t_color);
 float eval_t_len_and_shape(long dna);
 float eval_weight(long dna);
 float eval_pp_area(long dna);
-//float eval_webbing(string webbing);
+float eval_webbing(string webbing);
 //float eval_temper(string temper);
 
 /***
@@ -333,5 +333,24 @@ float eval_pp_area(long dna){
 
 }
 
-//TODO: float eval_webbing(string webbing);
+/***
+ * eval_webbing function
+ * 
+ * evaluates the dog's paw webbing percentage
+ * to see how close it is to the softie
+ * 
+ * Desirable softie : Greater than 9 sq. in
+ * 
+ * @returns float
+ * @param long dna
+ * NOT TESTED
+ ***/
+float eval_webbing(long dna){
+    //snip dna segment:
+    int webbing = 0x7 & (dna >> 6);
+
+    return (webbing / 7) * 0.1;
+
+}
+
 // TODO: float eval_temper(string temper);
