@@ -1,6 +1,7 @@
 
 #include <iostream>
 #include "DNA.h"
+#include <omp.h>
 
 #define DEBUG true
 
@@ -41,27 +42,57 @@ float eval_temper(long dna);
  * ***/   
 float best_fit(DNA dog) {
     float eval = 0.0;
+    #pragma omp parallel shared(eval)
+    {
+        #pragma omp sections reduction(+: eval) 
+        {
+            #pragma omp section 
+            {    
+            eval = eval + eval_coat_length(dog.to_number()); 
+            }
+            #pragma omp section 
+            {
+                eval = eval + eval_stiffness(dog.to_number());
+            }
+            #pragma omp section 
+            {
+                eval += eval_bg_color(dog.readable_background_color());
+            }
+            #pragma omp section 
+            {
+                eval += eval_fg_color(dog.readable_foreground_color());
+            }
+            #pragma omp section 
+            {
+                eval += eval_paw_color(dog.readable_paw_and_tail());
+            }
+            #pragma omp section 
+            {
+                eval = eval + eval_tail_color(dog.readable_paw_and_tail());
+            }
+            #pragma omp section 
+            {
+                eval = eval + eval_t_len_and_shape(dog.to_number());
+            }
+            #pragma omp section 
+            {
+                eval = eval + eval_weight(dog.to_number());
+            }
+            #pragma omp section 
+            {
+                eval = eval + eval_pp_area(dog.to_number());
+            }
+            #pragma omp section 
+            {
+                eval = eval + eval_webbing(dog.to_number());
+            }
+            #pragma omp section 
+            {
+                eval = eval + eval_temper(dog.to_number());
+            }
+        }
+    }
 
-    //coat_length
-    eval = eval + eval_coat_length(dog.to_number()); 
-    //coat stiffness
-    eval += eval_stiffness(dog.to_number());
-    //coat color
-    eval += eval_bg_color(dog.readable_background_color());
-    eval += eval_fg_color(dog.readable_foreground_color());
-    eval += eval_paw_color(dog.readable_paw_and_tail());
-    eval = eval + eval_tail_color(dog.readable_paw_and_tail());
-    //tail length and shape
-    eval = eval + eval_t_len_and_shape(dog.to_number());
-    //weight
-    eval = eval + eval_weight(dog.to_number());
-    //paw print area
-    eval = eval + eval_pp_area(dog.to_number());
-    //webbing
-    eval = eval + eval_webbing(dog.to_number());
-    //temper
-    eval = eval + eval_temper(dog.to_number());
-    
     if(DEBUG) { cout << "DEBUG: Eval is " << eval << endl; }
     
     if(eval >= 1.1){
