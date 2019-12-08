@@ -3,7 +3,7 @@
 #include "DNA.h"
 #include <omp.h>
 
-#define DEBUG true
+#define DEBUG false
 
 using namespace std;
 
@@ -28,16 +28,12 @@ float eval_temper(long dna);
  * There are 10 characteristics: coat length, stiffness,
  * coat background color, foreground color, paw color, tail color,
  * tail length (and shape), weight, pawprint area, webbing, and temper
- * 
- * TODO: remove once all aux methods are created
- * tail length and shape = 4 to 6 inches, pointing straight up
- * weight >= 90 kg
- * pawprint area > 9 sq inches
- * webbing = fully webbed between toes
- * temper = extremely mild tempered
  *
  * Any dog with a float of 1.0 or higher is considered a softie. Each
  * characteristic is responsible for 0.1 of the total evaluation.
+ * 
+ * @returns float
+ * @param DNA
  * 
  * ***/   
 float best_fit(DNA dog) {
