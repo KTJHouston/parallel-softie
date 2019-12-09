@@ -12,7 +12,7 @@ bool DNA::seed_set = false;
 /**
  * Constructor
  * 
- * Create a DNA object with a reandom sequence. 
+ * Create a DNA object with a random sequence. 
  **/
 DNA::DNA() {
     //set rand seed:
@@ -494,11 +494,15 @@ string DNA::to_string(DNA d) {
 }//end to_string
 
 /**
- * breed
+ * breed function
  * 
  * Breeds two dna sequences randomly. 
  * Has between [1, 5) crosses and 
  * between [0, 4) mutations. 
+ * 
+ * Look to the documentation of mutate 
+ * and multipoint_crossover functions for 
+ * definitions of a "cross" and a "mutation". 
  **/
 DNA DNA::breed(DNA a, DNA b) {
     //get random number of crosses:
@@ -551,7 +555,7 @@ string DNA::get_binary_representation(int value, int bit_count) {
 }//end get_binary_representation
 
 /**
- * rand_num
+ * rand_num function
  * 
  * Returns a random integer [start, end).
  **/
@@ -563,7 +567,7 @@ int DNA::rand_num(int start, int end) {
 }//end rand_num
 
 /**
- * clip
+ * clip function
  * 
  * Returns only the bits of value between [start, end). 
  * Assumed that start <= end <= 64;
@@ -580,11 +584,16 @@ dna_t DNA::clip(dna_t value, int start, int end) {
 }//end clip
 
 /**
- * multipoint_crossover
+ * multipoint_crossover function
  * 
  * Performs a multipoint crossover of the two dna 
- * sequences with a given number of cuts. Cuts are 
- * spread fairly evenly, but with some randomness.  
+ * sequences with a given number of cuts. The location 
+ * of cuts are chosen by dividing the sequence into 
+ * equally sized ranges. Each range will have a cut 
+ * places randomly within it. 
+ * 
+ * A cross is when the bits of the new dna sequecne 
+ * switch from originating from one parent to the other.   
  **/
 dna_t DNA::multipoint_crossover(dna_t a, dna_t b, int cut_num) {
     //generate cross points:
@@ -631,7 +640,7 @@ dna_t DNA::multipoint_crossover(dna_t a, dna_t b, int cut_num) {
 }//end multipoint_crossover
 
 /**
- * mutate
+ * mutate function
  * 
  * Flips a given number of bits. The bits chosen 
  * are entirely random, and there is no attempt 
