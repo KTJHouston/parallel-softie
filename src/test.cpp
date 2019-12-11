@@ -26,21 +26,27 @@ int main(int argc, char** argv) {
     //print out all possibles values of one attribute
     /*
      for (long i = 0; i < 1024; i++) {
+
         long input = i << 16;
         DNA d = DNA(input);
         cout << d.readable_weight() << endl;
         cout.flush();
-    }
-    */
-    unsigned long input = 0b1111111000000111000000000101001111110011110100011011010111000100;
 
+    } */
+    //Test Best_fit
+    unsigned long input = 0b1111111000000111000000000101001111110011110100011011010111000100;
     unsigned long softie =  0b1111001000000111000000000101001100100010110100001011010111000100;
     unsigned long failure = 0b0000000000000000000000000000000000000000000000000000000000000000;
-
-
     DNA d = DNA(failure);
     cout << DNA::to_string(d) << endl;
     float evaluation = best_fit(d);
     cout << "Best Fit Percentage: " << evaluation << endl;
-
+    
+    //Test breeding:
+    DNA d = DNA();
+    DNA e = DNA();
+    DNA child = DNA::breed(d, e);
+    cout << DNA::to_string(d) << endl << endl;
+    cout << DNA::to_string(e) << endl << endl;
+    cout << DNA::to_string(child) << endl << endl;
 }

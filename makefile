@@ -10,6 +10,7 @@ OBJ = $(patsubst %,$(ODIR)/%,$(_OBJ))
 
 CC = g++
 CFLAGS = -I$(IDIR) -std=c++14 -fopenmp
+
 EXE = softie.exe
 
 $(ODIR)/%.o: $(SOURCE)/%.cpp $(DEPS) 

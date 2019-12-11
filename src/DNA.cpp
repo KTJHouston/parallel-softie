@@ -1,10 +1,43 @@
 #include "DNA.h"
 
 /////////////////////////////////////////////////////////////////
+// STATIC PRIVATE VARIABLES
+/////////////////////////////////////////////////////////////////
+bool DNA::seed_set = false;
+
+/////////////////////////////////////////////////////////////////
 // PUBLIC
 /////////////////////////////////////////////////////////////////
 
+/**
+ * Constructor
+ * 
+ * Create a DNA object with a random sequence. 
+ **/
+DNA::DNA() {
+    //set rand seed:
+    if ( !seed_set ) {
+        srand(time(0));
+        seed_set = true;
+    }
+
+    //set sequence:
+    this->dna = ((dna_t)(rand()) << 32) + rand();
+}//end DNA() constructor
+
+/**
+ * Constructor
+ * 
+ * Create a DNA object with a specific sequence. 
+ **/
 DNA::DNA(dna_t dna) {
+    //set rand seed:
+    if ( !seed_set ) {
+        srand(time(0));
+        seed_set = true;
+    }
+
+    //set sequence:
     this->dna = dna;
 }//end DNA(dna_t) constructor
 
@@ -441,6 +474,10 @@ string DNA::readable_temper() {
 
 }//end readable_temper
 
+/////////////////////////////////////////////////////////////////
+// STATIC PUBLIC
+/////////////////////////////////////////////////////////////////
+
 string DNA::to_string(DNA d) {
     string output = "";
     output += d.readable_coat_length() + "\n";
@@ -460,8 +497,36 @@ long DNA::to_number() {
     return this->dna;
 }
 
+/**
+ * breed function
+ * 
+ * Breeds two dna sequences randomly. 
+ * Has between [1, 5) crosses and 
+ * between [0, 4) mutations. 
+ * 
+ * Look to the documentation of mutate 
+ * and multipoint_crossover functions for 
+ * definitions of a "cross" and a "mutation". 
+ **/
+DNA DNA::breed(DNA a, DNA b) {
+    //get random number of crosses:
+    int cut_num = rand_num(1, 5);
+
+    //cross:
+    dna_t child = multipoint_crossover(a.dna, b.dna, cut_num);
+
+    //get random number of mutations:
+    int mut_num = rand_num(0, 4);
+
+    //mutate:
+    mutate(child, mut_num);
+
+    return DNA(child);
+}//end breed
+
+
 /////////////////////////////////////////////////////////////////
-// PRIVATE
+// STATIC PRIVATE
 /////////////////////////////////////////////////////////////////
 
 /**
@@ -493,3 +558,113 @@ string DNA::get_binary_representation(int value, int bit_count) {
 
     return output;
 }//end get_binary_representation
+
+/**
+ * rand_num function
+ * 
+ * Returns a random integer [start, end).
+ **/
+int DNA::rand_num(int start, int end) {
+    int diff = end - start;
+    int r = rand() % diff;
+    r += start;
+    return r;
+}//end rand_num
+
+/**
+ * clip function
+ * 
+ * Returns only the bits of value between [start, end). 
+ * Assumed that start <= end <= 64;
+ **/
+dna_t DNA::clip(dna_t value, int start, int end) {
+    long s = 0xffffffffffffffff << start;
+    long e;
+    if (end == 64 ) {
+        e = 0xffffffffffffffff;
+    } else {
+        e = 0x7fffffffffffffff >> (63 - end);
+    }
+    return (s & e) & value;
+}//end clip
+
+/**
+ * multipoint_crossover function
+ * 
+ * Performs a multipoint crossover of the two dna 
+ * sequences with a given number of cuts. The location 
+ * of cuts are chosen by dividing the sequence into 
+ * equally sized ranges. Each range will have a cut 
+ * places randomly within it. 
+ * 
+ * A cross is when the bits of the new dna sequecne 
+ * switch from originating from one parent to the other.   
+ **/
+dna_t DNA::multipoint_crossover(dna_t a, dna_t b, int cut_num) {
+    //generate cross points:
+    vector<int> cuts(cut_num);
+    for (int i = 0; i < cut_num; i++) {
+        int start = floor(i * 64 / cut_num);
+        int end = floor((i+1) * 64 / cut_num);
+        cuts[i] = rand_num(start, end);
+    }
+
+    //random pick starting sequence:
+    dna_t current = (rand_num(0, 2)) ? a : b;
+
+    //splice new sequence:
+    dna_t new_sequence = 0;
+    int last_cut = 0;
+    for (int i = 0; i <= cuts.size(); i++) {
+        //determine end of clip:
+        int clip_end;
+        if (i == cuts.size()) {
+            clip_end = 64;
+        } else {
+            clip_end = cuts[i];
+        }
+
+        //get clip:
+        dna_t new_segment = clip(current, last_cut, clip_end);
+
+        //add clip to new sequence:
+        new_sequence = new_sequence | new_segment;
+
+        //switch sequence:
+        if (current == a) {
+            current = b;
+        } else {
+            current = a;
+        }
+
+        //set last cut:
+        last_cut = clip_end;
+    }
+
+    return new_sequence;
+}//end multipoint_crossover
+
+/**
+ * mutate function
+ * 
+ * Flips a given number of bits. The bits chosen 
+ * are entirely random, and there is no attempt 
+ * made to spread them evenly. Provided sequence 
+ * is manipulated directly. 
+ **/
+void DNA::mutate(dna_t &seq, int mut_num) {
+    vector<int> already_flipped = {};
+    for (int i = 0; i < mut_num; i++) {
+        int to_flip = rand_num(0, 64);
+        if ( !count(already_flipped.begin(), already_flipped.end(), to_flip) ) {
+            //if not already flipped:
+            dna_t to_xor = (long)(1) << to_flip;
+            seq = seq ^ to_xor;
+            already_flipped.push_back(to_flip);
+        } else {
+            //if already flipped:
+            //try again:
+            i--;
+        }
+    }
+}
