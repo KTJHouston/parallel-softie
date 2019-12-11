@@ -23,13 +23,18 @@ int main(int argc, char** argv) {
      * temper         : 0    : 64
      * ****/
     //print out all possibles values of one attribute
-    for (long i = 0; i < 1024; i++) {
+    /*for (long i = 0; i < 1024; i++) {
         long input = i << 16;
         DNA d = DNA(input);
         cout << d.readable_weight() << endl;
         cout.flush();
-    }
+    }*/
     
-    //DNA d = DNA(8);
-    //cout << DNA::to_string(d) << endl;
+    //Test breeding:
+    DNA d = DNA();
+    DNA e = DNA();
+    DNA child = DNA::breed(d, e);
+    cout << DNA::to_string(d) << endl << endl;
+    cout << DNA::to_string(e) << endl << endl;
+    cout << DNA::to_string(child) << endl << endl;
 }

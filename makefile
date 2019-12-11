@@ -9,7 +9,7 @@ _OBJ = test.o DNA.o
 OBJ = $(patsubst %,$(ODIR)/%,$(_OBJ))
 
 CC = g++
-CFLAGS = -I$(IDIR)
+CFLAGS = -I$(IDIR) -fopenmp
 EXE = softie.exe
 
 $(ODIR)/%.o: $(SOURCE)/%.cpp $(DEPS) 
