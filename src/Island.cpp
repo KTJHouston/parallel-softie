@@ -14,7 +14,7 @@ Island::Island(int size) {
     this->size = size;
     this->dogs = {};
     Island::fill();
-}
+}//end constructor
 
 /**
  * find_parents function
@@ -52,7 +52,7 @@ vector<DNA> Island::find_parents() {
 
     //return best parents
     return parents;
-}
+}//end find_parents
 
 /**
  * set_parents function
@@ -61,7 +61,7 @@ vector<DNA> Island::find_parents() {
  */
 void Island::set_parents(vector<DNA> parents) {
     dogs = parents;
-}
+}//end set_parents
 
 /**
  * breed function
@@ -74,7 +74,7 @@ void Island::breed() {
     while ( dogs.size() < size ) {
         dogs.push_back(DNA::breed(p1, p2));
     }
-}
+}//end breed
 
 /**
  * percent_softie function
@@ -90,7 +90,7 @@ float Island::percent_softie() {
         }
     }
     return softie_cnt / dogs.size();
-}
+}//end percent_softie
 
 /////////////////////////////////////////////////////////////////
 // PRIVATE
@@ -106,4 +106,4 @@ void Island::fill() {
     while ( dogs.size() < size ) {
         dogs.push_back(DNA());
     }
-}
+}//end fill
