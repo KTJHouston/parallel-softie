@@ -9,6 +9,8 @@
  * 
  * Creates an Island with a specific size. Size is assumed to be
  * 2 or greater. 
+ * 
+ * LIFE IS GREAT!
  */
 Island::Island(int size) {
     this->size = size;
