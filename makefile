@@ -5,11 +5,12 @@ DEPS = $(patsubst %,$(IDIR)/%,$(_DEPS))
 SOURCE = ./src
 
 ODIR = ./obj
-_OBJ = test.o DNA.o
+_OBJ = test.o DNA.o best_fit.o
 OBJ = $(patsubst %,$(ODIR)/%,$(_OBJ))
 
 CC = g++
-CFLAGS = -I$(IDIR) -fopenmp
+CFLAGS = -I$(IDIR) -std=c++14 -fopenmp
+
 EXE = softie.exe
 
 $(ODIR)/%.o: $(SOURCE)/%.cpp $(DEPS) 

@@ -1,3 +1,6 @@
+#ifndef DNA_H    // To make sure you don't declare the function more than once by including the header multiple times.
+#define DNA_H
+
 #include <iostream>
 #include <string>
 #include <string.h>
@@ -34,6 +37,7 @@ class DNA {
     string readable_webbing();
     string readable_temper();
     static string to_string(DNA d);
+    long to_number();
 
     static DNA breed(DNA a, DNA b);
 
@@ -46,4 +50,6 @@ class DNA {
     static dna_t multipoint_crossover(dna_t a, dna_t b, int cut_num);
     static void mutate(dna_t &seq, int mut_num);
 
-};//end DNA class
+}; //end DNA class
+
+#endif //DNA_H

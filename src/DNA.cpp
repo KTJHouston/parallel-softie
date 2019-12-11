@@ -94,10 +94,10 @@ string DNA::readable_stiffness() {
     else if ( stiffness < 8 ) {
         output += "Extremely soft";
     }
-    else if ( stiffness == 0x3f ) {
+    else if ( stiffness == 63 ) {
         output += "Ultimate stiff";
     }
-    else if ( stiffness > 0x38 ) {
+    else if ( stiffness > 56 ) {
         output += "Extremely stiff";
     }
     else  {
@@ -141,7 +141,7 @@ string DNA::readable_background_color() {
         output += "bright ";
     }
     else if ( brightness >= 4 ) {
-        output += "bark ";
+        output += "dark ";
     }
 
     // Get color description:
@@ -246,10 +246,10 @@ string DNA::readable_paw_and_tail() {
     
     // Get paw color:
     if ( paw == 0 ) {
-        output += "White paws ";
+        output += "white paws, ";
     }
     else {
-        output += "Any color paws";
+        output += "Any color paws, ";
     }
 
     // Get tail color:
@@ -461,10 +461,10 @@ string DNA::readable_temper() {
     else if ( temper < 8 ) {
         output += "Extremely mild tempered";
     }
-    else if ( temper == 0x3f ) {
+    else if ( temper == 63 ) {
         output += "Ultimate non-mild-temperedness";
     }
-    else if ( temper > 0x38 ) {
+    else if ( temper > 56 ) {
         output += "Extremely unmild tempered";
     }
     else  {
@@ -493,6 +493,10 @@ string DNA::to_string(DNA d) {
     return output;
 }//end to_string
 
+long DNA::to_number() {
+    return this->dna;
+}
+
 /**
  * breed function
  * 
@@ -519,6 +523,7 @@ DNA DNA::breed(DNA a, DNA b) {
 
     return DNA(child);
 }//end breed
+
 
 /////////////////////////////////////////////////////////////////
 // STATIC PRIVATE
