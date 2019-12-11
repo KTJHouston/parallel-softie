@@ -63,6 +63,11 @@ void Island::set_parents(vector<DNA> parents) {
     dogs = parents;
 }
 
+/**
+ * breed function
+ * 
+ * Fills the island with offspring from the first two dogs. 
+ */
 void Island::breed() {
     DNA p1 = dogs[0];
     DNA p2 = dogs[1];
