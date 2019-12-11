@@ -18,6 +18,7 @@ class Island {
     Island(int size);
 
     vector<DNA> find_parents();
+    void set_parents(vector<DNA> parents);
 
     private:
     void fill();

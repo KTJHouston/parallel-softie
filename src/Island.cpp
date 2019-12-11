@@ -54,6 +54,15 @@ vector<DNA> Island::find_parents() {
     return parents;
 }
 
+/**
+ * set_parents function
+ * 
+ * Sets the island to have only the given parents as inhabitants. 
+ */
+void Island::set_parents(vector<DNA> parents) {
+    dogs = parents;
+}
+
 /////////////////////////////////////////////////////////////////
 // PRIVATE
 /////////////////////////////////////////////////////////////////
