@@ -58,25 +58,26 @@ int main(int argc, char** argv) {
 
     Island island = Island(500);
     DNA softie;
-    int softie_index = -1;
+    //int softie_index = -1;
     int gen_cnt = 0;
     
     //find parents:
     vector<DNA> parents = island.find_parents();
 
     //setting my own starting parents:
-    parents[0] = DNA(0);
-    parents[1] = DNA(0);
+    //parents[0] = DNA(0);
+    //parents[1] = DNA(0);
 
     //if parent is softie, end
-    softie_index = check_parents(parents);
+    //softie_index = check_parents(parents);
 
-    while ( softie_index == -1 ) {
-        //print parent ratings:
+    while ( island.percent_softie() < .1 ) {
+        //print ratings:
         cout << "Gen " << gen_cnt << endl;
         for (int i = 0; i < parents.size(); i++) {
             cout << "Rating: " << rate(parents[i]) << endl;
         }
+        cout << "Softie Percent: " << island.percent_softie() << endl;
         cout << endl;
 
         //set parents:
@@ -89,7 +90,7 @@ int main(int argc, char** argv) {
         parents = island.find_parents();
 
         //if parent is softie, end
-        softie_index = check_parents(parents);
+        //softie_index = check_parents(parents);
 
         //increase generation counter:
         gen_cnt++;
@@ -100,6 +101,7 @@ int main(int argc, char** argv) {
         cout << "Rating: " << rate(parents[i]) << endl;
         cout << DNA::to_string(parents[i]) << endl << endl;
     }
+    cout << "Softie Percent: " << island.percent_softie() << endl;
 }
 
 /**

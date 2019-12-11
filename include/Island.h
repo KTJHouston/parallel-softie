@@ -20,6 +20,7 @@ class Island {
     vector<DNA> find_parents();
     void set_parents(vector<DNA> parents);
     void breed();
+    float percent_softie();
 
     private:
     void fill();

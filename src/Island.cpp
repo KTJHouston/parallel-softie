@@ -76,6 +76,22 @@ void Island::breed() {
     }
 }
 
+/**
+ * percent_softie function
+ * 
+ * Returns the percentage of dogs on the island 
+ * that are considered softies. 
+ */
+float Island::percent_softie() {
+    float softie_cnt = 0;
+    for (int i = 0; i < dogs.size(); i++) {
+        if ( rate(dogs[i]) >= 1.0 ) {
+            softie_cnt++;
+        }
+    }
+    return softie_cnt / dogs.size();
+}
+
 /////////////////////////////////////////////////////////////////
 // PRIVATE
 /////////////////////////////////////////////////////////////////
