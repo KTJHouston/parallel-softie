@@ -63,6 +63,14 @@ void Island::set_parents(vector<DNA> parents) {
     dogs = parents;
 }
 
+void Island::breed() {
+    DNA p1 = dogs[0];
+    DNA p2 = dogs[1];
+    while ( dogs.size() < size ) {
+        dogs.push_back(DNA::breed(p1, p2));
+    }
+}
+
 /////////////////////////////////////////////////////////////////
 // PRIVATE
 /////////////////////////////////////////////////////////////////
