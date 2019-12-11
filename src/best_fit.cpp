@@ -20,7 +20,7 @@ float eval_webbing(long dna);
 float eval_temper(long dna);
 
 /***
- * best_fit function
+ * rate function
  * 
  * designed to rate a dog's DNA against
  * the DNA of the desired 'softie' type
@@ -32,11 +32,11 @@ float eval_temper(long dna);
  * Any dog with a float of 1.0 or higher is considered a softie. Each
  * characteristic is responsible for 0.1 of the total evaluation.
  * 
- * @returns float
  * @param DNA
+ * @returns float
  * 
  * ***/   
-float best_fit(DNA dog) {
+float rate(DNA dog) {
     float eval = 0.0;
     #pragma omp parallel shared(eval)
     {

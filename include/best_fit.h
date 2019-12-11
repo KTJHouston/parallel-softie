@@ -3,6 +3,6 @@
 
 #include "DNA.h"
 
-float best_fit(DNA dog); 
+float rate(DNA dog); 
 
 #endif //BESTFIT_H
