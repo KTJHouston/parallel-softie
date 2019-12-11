@@ -1,12 +1,14 @@
 #include <iostream>
 #include <string>
+#include <vector>
 
-//#include "best_fit.h"
+#include "best_fit.h"
 #include "DNA.h"
 #include "Island.h"
 
 using namespace std;
-void print_states(int num);
+
+int check_parents(vector<DNA> parents);
 
 int main(int argc, char** argv) {
     
@@ -53,4 +55,66 @@ int main(int argc, char** argv) {
     cout << DNA::to_string(e) << endl << endl;
     cout << DNA::to_string(child) << endl << endl;
     */
+
+    Island island = Island(500);
+    DNA softie;
+    int softie_index = -1;
+    int gen_cnt = 0;
+    
+    //find parents:
+    vector<DNA> parents = island.find_parents();
+
+    //setting my own starting parents:
+    parents[0] = DNA(0);
+    parents[1] = DNA(0);
+
+    //if parent is softie, end
+    softie_index = check_parents(parents);
+
+    while ( softie_index == -1 ) {
+        //print parent ratings:
+        cout << "Gen " << gen_cnt << endl;
+        for (int i = 0; i < parents.size(); i++) {
+            cout << "Rating: " << rate(parents[i]) << endl;
+        }
+        cout << endl;
+
+        //set parents:
+        island.set_parents(parents);
+
+        //breed from parents:
+        island.breed();
+
+        //find parents:
+        parents = island.find_parents();
+
+        //if parent is softie, end
+        softie_index = check_parents(parents);
+
+        //increase generation counter:
+        gen_cnt++;
+    }
+
+    cout << "Gen " << gen_cnt << endl;
+    for (int i = 0; i < parents.size(); i++) {
+        cout << "Rating: " << rate(parents[i]) << endl;
+        cout << DNA::to_string(parents[i]) << endl << endl;
+    }
+}
+
+/**
+ * check_parents function
+ * 
+ * Returns the index in the given array of parents which is 
+ * considered a softie. If no parents are softies, -1 is returned. 
+ */
+int check_parents(vector<DNA> parents) {
+    int softie_index = -1;
+    for (int i = 0; i < parents.size(); i++) {
+        if ( rate(parents[i]) >= 1.0 ) {
+            softie_index = i;
+            break;
+        }
+    }
+    return softie_index;
 }
