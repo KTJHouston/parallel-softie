@@ -1,8 +1,9 @@
 #include <iostream>
 #include <string>
 
-#include "best_fit.h"
+//#include "best_fit.h"
 #include "DNA.h"
+#include "Island.h"
 
 using namespace std;
 void print_states(int num);
@@ -33,6 +34,7 @@ int main(int argc, char** argv) {
         cout.flush();
 
     } */
+    /*
     //Test Best_fit
     unsigned long input = 0b1111111000000111000000000101001111110011110100011011010111000100;
     unsigned long softie =  0b1111001000000111000000000101001100100010110100001011010111000100;
@@ -41,7 +43,8 @@ int main(int argc, char** argv) {
     cout << DNA::to_string(d) << endl;
     float evaluation = best_fit(d);
     cout << "Best Fit Percentage: " << evaluation << endl;
-    
+    */
+    /*
     //Test breeding:
     DNA d = DNA();
     DNA e = DNA();
@@ -49,4 +52,5 @@ int main(int argc, char** argv) {
     cout << DNA::to_string(d) << endl << endl;
     cout << DNA::to_string(e) << endl << endl;
     cout << DNA::to_string(child) << endl << endl;
+    */
 }
