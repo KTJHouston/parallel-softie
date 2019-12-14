@@ -306,28 +306,31 @@ float eval_t_len_and_shape(long dna){
     int tail_length = 0xff & (dna >> 28);
     int tail_shape = 0x3 & (dna >> 26);
 
-    if(tail_length == 0){
-        if(DEBUG) { cout << "DEBUG: length returns 0.0" << endl; }
-        return eval;
-    }
+    //evaluate tail length:
     float length_inches = tail_length * .1;
-
     if(length_inches >= 4 && length_inches <= 6){
-        if(DEBUG) { cout << "DEBUG: length returns 0.05" << endl; }
         eval += 0.05;
+    } else if ( length_inches > 6 ) {
+        float diff = length_inches - 6;
+        float score = .05 - (.003 * diff);
+        if (score >= 0) {
+            //cout << "Score: " << score << endl;
+            eval += score;
+        }
+    } else {//if length_inces < 4
+        float diff = 4 - length_inches;
+        eval += .05 - (.003 * diff);
     }
 
     //evaluate the tail shape
     if(tail_shape == 0){
-        if(DEBUG) { cout << "DEBUG: shape returns 0.05" << endl; }
         eval += 0.05;
     }
-    else {
-        if(DEBUG) { cout << "DEBUG: shape returns 0.0" << endl; }
+    else if (tail_shape == 1 || tail_shape == 2) {
+        eval += 0.025;
     }
 
     return eval;
-
 }
 
 /***
