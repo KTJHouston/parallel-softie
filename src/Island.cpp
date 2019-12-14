@@ -12,7 +12,7 @@
  */
 Island::Island(int size) {
     this->size = size;
-    this->dogs = {};
+    this->dogs = vector<DNA>(size);
     Island::fill();
 }//end constructor
 
@@ -57,10 +57,12 @@ vector<DNA> Island::find_parents() {
 /**
  * set_parents function
  * 
- * Sets the island to have only the given parents as inhabitants. 
+ * Sets the island to have only the two given parents as inhabitants. 
  */
 void Island::set_parents(vector<DNA> parents) {
-    dogs = parents;
+    dogs = vector<DNA>(size);
+    dogs[0] = parents[0];
+    dogs[1] = parents[1];
 }//end set_parents
 
 /**
@@ -71,8 +73,10 @@ void Island::set_parents(vector<DNA> parents) {
 void Island::breed() {
     DNA p1 = dogs[0];
     DNA p2 = dogs[1];
-    while ( dogs.size() < size ) {
-        dogs.push_back(DNA::breed(p1, p2));
+
+    #pragma omp parallel for shared(dogs)
+    for (int i = 2; i < size; i++) {
+        dogs[i] = DNA::breed(p1, p2);
     }
 }//end breed
 
@@ -103,7 +107,8 @@ float Island::percent_softie() {
  * until it is full. 
  */
 void Island::fill() {
-    while ( dogs.size() < size ) {
-        dogs.push_back(DNA());
+    #pragma omp parallel for shared(dogs)
+    for (int i = 0; i < size; i++) {
+        dogs[i] = DNA();
     }
 }//end fill
