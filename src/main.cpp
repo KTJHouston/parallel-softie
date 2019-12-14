@@ -13,8 +13,11 @@ int check_parents(vector<DNA> parents);
 int single_island_sim(int size, bool verbose);
 
 int main(int argc, char** argv) {
-    int gen = single_island_sim(500, false);
-    cout << "Gen " << gen << endl;
+    //run sim 100 times:
+    for (int i = 0; i < 100; i++) {
+        int gen = single_island_sim(500, false);
+    }
+    //cout << "Gen " << gen << endl;
 }
 
 /**
@@ -93,7 +96,8 @@ int single_island_sim(int size, bool verbose) {
 
     //print time to complete simulation:
     auto duration = std::chrono::duration_cast<std::chrono::microseconds>( t_end - t_start ).count();
-    cout << "Single island speed: " << duration << " microseconds" << endl;
+    //cout << "Single island speed: " << duration << " microseconds" << endl;
+    cout << gen_cnt << "," << duration << endl;
 
     return gen_cnt;
 }
