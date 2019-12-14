@@ -32,7 +32,32 @@ float eval_temper(long dna);
  * @param DNA
  * @returns float
  * 
- * ***/   
+ * ***/ 
+float rate(DNA dog) {
+    float eval = 0.0;
+    eval += eval_coat_length(dog.to_number()); 
+    eval += eval_stiffness(dog.to_number());
+    eval += eval_bg_color(dog.readable_background_color());
+    eval += eval_fg_color(dog.readable_foreground_color());
+    eval += eval_paw_color(dog.readable_paw_and_tail());
+    eval += eval_tail_color(dog.readable_paw_and_tail());
+    eval += eval_t_len_and_shape(dog.to_number());
+    eval += eval_weight(dog.to_number());
+    eval += eval_pp_area(dog.to_number());
+    eval += eval_webbing(dog.to_number());
+    eval += eval_temper(dog.to_number());
+    
+    if(DEBUG) { cout << "DEBUG: Eval is " << eval << endl; }
+    
+    if(eval >= 1.1){
+        cout << "EVAL ERROR: Percentage greater than 100%" << endl;
+        return -1;
+    }
+
+    return eval;
+}
+
+/*
 float rate(DNA dog) {
     float eval = 0.0;
     #pragma omp parallel shared(eval)
@@ -94,7 +119,7 @@ float rate(DNA dog) {
     }
 
     return eval;
-}
+}*/
 
 /***
  * eval_coat_length function
