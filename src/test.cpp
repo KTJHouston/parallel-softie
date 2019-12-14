@@ -1,6 +1,7 @@
 #include <iostream>
 #include <string>
 #include <vector>
+#include <chrono>
 
 #include "best_fit.h"
 #include "DNA.h"
@@ -9,99 +10,18 @@
 using namespace std;
 
 int check_parents(vector<DNA> parents);
+int single_island_sim(int size, bool verbose);
 
 int main(int argc, char** argv) {
-    
-    /**
-     * attribute : shift value : max_size
-     * -----------------------
-     * coat_length    : 56   : 256   
-     * stiffness      : 50   : 64
-     * back_color     : 44   : 64
-     * fore_color     : 38   : 64
-     * paw_&_tail     : 36   : 4
-     * tail_len_&_shp : 26   : 1024
-     * weight         : 16   : 1024
-     * pawprint_area  : 9    : 128
-     * webbing        : 6    : 8
-     * temper         : 0    : 64
-     * ****/
-    //print out all possibles values of one attribute
-    /*
-     for (long i = 0; i < 1024; i++) {
-
-        long input = i << 16;
-        DNA d = DNA(input);
-        cout << d.readable_weight() << endl;
-        cout.flush();
-
-    } */
-    /*
-    //Test Best_fit
-    unsigned long input = 0b1111111000000111000000000101001111110011110100011011010111000100;
-    unsigned long softie =  0b1111001000000111000000000101001100100010110100001011010111000100;
-    unsigned long failure = 0b0000000000000000000000000000000000000000000000000000000000000000;
-    DNA d = DNA(failure);
-    cout << DNA::to_string(d) << endl;
-    float evaluation = best_fit(d);
-    cout << "Best Fit Percentage: " << evaluation << endl;
-    */
-    /*
-    //Test breeding:
-    DNA d = DNA();
-    DNA e = DNA();
-    DNA child = DNA::breed(d, e);
-    cout << DNA::to_string(d) << endl << endl;
-    cout << DNA::to_string(e) << endl << endl;
-    cout << DNA::to_string(child) << endl << endl;
-    */
-
-    Island island = Island(500);
-    DNA softie;
-    //int softie_index = -1;
-    int gen_cnt = 0;
-    
-    //find parents:
-    vector<DNA> parents = island.find_parents();
-
-    //setting my own starting parents:
-    //parents[0] = DNA(0);
-    //parents[1] = DNA(0);
-
-    //if parent is softie, end
-    //softie_index = check_parents(parents);
-
-    while ( island.percent_softie() < .1 ) {
-        //print ratings:
-        cout << "Gen " << gen_cnt << endl;
-        for (int i = 0; i < parents.size(); i++) {
-            cout << "Rating: " << rate(parents[i]) << endl;
-        }
-        cout << "Softie Percent: " << island.percent_softie() << endl;
-        cout << endl;
-
-        //set parents:
-        island.set_parents(parents);
-
-        //breed from parents:
-        island.breed();
-
-        //find parents:
-        parents = island.find_parents();
-
-        //if parent is softie, end
-        //softie_index = check_parents(parents);
-
-        //increase generation counter:
-        gen_cnt++;
+    int test_num = 0;
+    int gen = 0;
+    int gen_goal = 5000;
+    while ( gen < gen_goal ) {
+        gen = single_island_sim(500, false);
+        cout << "Gen " << gen << endl;
+        test_num++;
     }
-
-    cout << "Gen " << gen_cnt << endl;
-    for (int i = 0; i < parents.size(); i++) {
-        cout << "Rating: " << rate(parents[i]) << endl;
-        cout << DNA::to_string(parents[i]) << endl << endl;
-    }
-    cout << "Softie Percent: " << island.percent_softie() << endl;
+    cout << test_num << " test before over " << gen_goal << " generations." << endl;
 }
 
 /**
@@ -119,4 +39,86 @@ int check_parents(vector<DNA> parents) {
         }
     }
     return softie_index;
+}
+
+/**
+ * single_island_sim funciton
+ * 
+ * Creates an Island of a given size. Continues the 
+ * breeding process until 10% of the islands population 
+ * is up to softie standards. 
+ * 
+ * Verbose flag will print when the generation count 
+ * reaches multiples of 100 and when the simulation 
+ * is complete. The end of simulation print out includes 
+ * the final generation number, the characteristics of the 
+ * achieved parents, and the final softie percentage. 
+ * 
+ * Even if the verbose flag is off, it will print the time 
+ * the simulation ran for. Also, it will print the generation 
+ * count on multiples of 1000 for debugging purposes. 
+ */
+int single_island_sim(int size, bool verbose) {
+    //start timer:
+    auto t_start = std::chrono::high_resolution_clock::now();
+
+    //init island:
+    Island island = Island(size);
+    int gen_cnt = 0;
+    
+    //find parents:
+    vector<DNA> parents = island.find_parents();
+
+    while ( island.percent_softie() < .1 ) {
+        //print ratings:
+        /*cout << "Gen " << gen_cnt << endl;
+        for (int i = 0; i < parents.size(); i++) {
+            cout << "Rating: " << rate(parents[i]) << endl;
+        }
+        cout << "Softie Percent: " << island.percent_softie() << endl;
+        cout << endl;*/
+
+        //set parents:
+        island.set_parents(parents);
+
+        //breed from parents:
+        island.breed();
+
+        //find parents:
+        parents = island.find_parents();
+
+        //if parent is softie, end
+        //softie_index = check_parents(parents);
+
+        //increase generation counter:
+        gen_cnt++;
+        if ( verbose && gen_cnt % 100 == 0 ) {
+            cout << "Gen " << gen_cnt << endl;
+        }
+        if ( gen_cnt % 1000 == 0 ) {
+            cout << "Gen " << gen_cnt << " (at least)" << endl;
+            float p = island.percent_softie();
+            cout << "Island percent: " << p << endl;
+            for (int i = 0; i < parents.size(); i++) {
+                cout << "Rating: " << rate(parents[i]) << endl;
+                cout << DNA::to_string(parents[i]) << endl << endl;
+            }
+        }
+    }
+
+    auto t_end = std::chrono::high_resolution_clock::now();
+
+    if ( verbose ) {
+        cout << "Gen " << gen_cnt << endl << endl;
+        for (int i = 0; i < parents.size(); i++) {
+            //cout << "Rating: " << rate(parents[i]) << endl;
+            cout << DNA::to_string(parents[i]) << endl << endl;
+        }
+        cout << "Softie Percent: " << island.percent_softie() << endl;
+    }
+
+    auto duration = std::chrono::duration_cast<std::chrono::microseconds>( t_end - t_start ).count();
+    cout << "Single island speed: " << duration << " microseconds" << endl;
+
+    return gen_cnt;
 }
