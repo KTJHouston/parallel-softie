@@ -75,9 +75,7 @@ int single_island_sim(int size, bool verbose) {
 
         //increase generation counter:
         gen_cnt++;
-        if ( verbose && gen_cnt % 100 == 0 ) {
-            cout << "Gen " << gen_cnt << endl;
-        }
+
         //print ratings:
         if ( verbose ) {
             cout << "Gen " << gen_cnt << endl;
