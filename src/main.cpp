@@ -58,23 +58,16 @@ int single_island_sim(int size, bool verbose) {
     //init island:
     Island island = Island(size);
     int gen_cnt = 0;
-    
-    //find parents:
-    vector<DNA> parents = island.find_parents();
 
     while ( island.percent_softie() < .1 ) {
+        //find parents:
+        vector<DNA> parents = island.find_parents();
 
         //set parents:
         island.set_parents(parents);
 
         //breed from parents:
         island.breed();
-
-        //find parents:
-        parents = island.find_parents();
-
-        //if parent is softie, end
-        //softie_index = check_parents(parents);
 
         //increase generation counter:
         gen_cnt++;
@@ -100,4 +93,4 @@ int single_island_sim(int size, bool verbose) {
     cout << gen_cnt << "," << duration << endl;
 
     return gen_cnt;
-}
+}//end single island sim
