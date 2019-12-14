@@ -298,7 +298,6 @@ float eval_tail_color(string t_color) {
  * 
  * @returns float
  * @param long dna
- * NOT TESTED
  ***/
 float eval_t_len_and_shape(long dna){
     float eval = 0.0;
@@ -341,7 +340,6 @@ float eval_t_len_and_shape(long dna){
  * 
  * @returns float
  * @param long dna
- * NOT TESTED
  ***/
 float eval_weight(long dna){
 
@@ -371,7 +369,6 @@ float eval_weight(long dna){
  * 
  * @returns float
  * @param long dna
- * NOT TESTED
  ***/
 float eval_pp_area(long dna){
     //snip dna segment:
@@ -403,7 +400,6 @@ float eval_pp_area(long dna){
  * 
  * @returns float
  * @param long dna
- * NOT TESTED
  ***/
 float eval_webbing(long dna){
     //snip dna segment:
@@ -425,7 +421,6 @@ float eval_webbing(long dna){
  * 
  * @returns float
  * @param long dna
- * NOT TESTED
  ***/
 float eval_temper(long dna){
     int temper = 0x3f & dna;
