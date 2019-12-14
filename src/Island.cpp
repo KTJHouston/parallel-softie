@@ -88,6 +88,7 @@ void Island::breed() {
  */
 float Island::percent_softie() {
     float softie_cnt = 0;
+    #pragma omp parallel for shared(dogs) reduction(+: softie_cnt)
     for (int i = 0; i < dogs.size(); i++) {
         if ( rate(dogs[i]) >= 1.0 ) {
             softie_cnt++;
