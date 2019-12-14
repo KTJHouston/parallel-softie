@@ -1,7 +1,4 @@
-
-#include <iostream>
-#include "DNA.h"
-#include <omp.h>
+#include "best_fit.h"
 
 #define DEBUG false
 
