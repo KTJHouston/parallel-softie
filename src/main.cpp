@@ -11,6 +11,7 @@ using namespace std;
 
 int check_parents(vector<DNA> parents);
 int single_island_sim(int size, bool verbose);
+float multi_percent_softie(vector<Island> islands);
 
 int main(int argc, char** argv) {
     //run sim 100 times:
@@ -94,3 +95,18 @@ int single_island_sim(int size, bool verbose) {
 
     return gen_cnt;
 }//end single island sim
+
+/**
+ * multi_percent_softie function
+ * 
+ * Returns the percentage of dogs on all the islands 
+ * which qualify as softies. The function assumes the 
+ * size of the islands are the same. 
+ */
+float multi_percent_softie(vector<Island> islands) {
+    float total_percent = 0;
+    for (int i = 0; i < islands.size(); i++) {
+        total_percent += islands[i].percent_softie();
+    }
+    return total_percent / islands.size();
+}
