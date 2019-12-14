@@ -5,7 +5,7 @@ DEPS = $(patsubst %,$(IDIR)/%,$(_DEPS))
 SOURCE = ./src
 
 ODIR = ./obj
-_OBJ = test.o DNA.o best_fit.o Island.o
+_OBJ = main.o DNA.o best_fit.o Island.o
 OBJ = $(patsubst %,$(ODIR)/%,$(_OBJ))
 
 CC = g++

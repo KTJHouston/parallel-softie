@@ -15,7 +15,7 @@ int single_island_sim(int size, bool verbose);
 int main(int argc, char** argv) {
     int test_num = 0;
     int gen = 0;
-    int gen_goal = 5000;
+    int gen_goal = 1000;
     while ( gen < gen_goal ) {
         gen = single_island_sim(500, false);
         cout << "Gen " << gen << endl;
