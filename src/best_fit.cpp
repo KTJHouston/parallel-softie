@@ -1,7 +1,4 @@
-
-#include <iostream>
-#include "DNA.h"
-#include <omp.h>
+#include "best_fit.h"
 
 #define DEBUG false
 
@@ -20,7 +17,7 @@ float eval_webbing(long dna);
 float eval_temper(long dna);
 
 /***
- * best_fit function
+ * rate function
  * 
  * designed to rate a dog's DNA against
  * the DNA of the desired 'softie' type
@@ -32,11 +29,36 @@ float eval_temper(long dna);
  * Any dog with a float of 1.0 or higher is considered a softie. Each
  * characteristic is responsible for 0.1 of the total evaluation.
  * 
- * @returns float
  * @param DNA
+ * @returns float
  * 
- * ***/   
-float best_fit(DNA dog) {
+ * ***/ 
+float rate(DNA dog) {
+    float eval = 0.0;
+    eval += eval_coat_length(dog.to_number()); 
+    eval += eval_stiffness(dog.to_number());
+    eval += eval_bg_color(dog.readable_background_color());
+    eval += eval_fg_color(dog.readable_foreground_color());
+    eval += eval_paw_color(dog.readable_paw_and_tail());
+    eval += eval_tail_color(dog.readable_paw_and_tail());
+    eval += eval_t_len_and_shape(dog.to_number());
+    eval += eval_weight(dog.to_number());
+    eval += eval_pp_area(dog.to_number());
+    eval += eval_webbing(dog.to_number());
+    eval += eval_temper(dog.to_number());
+    
+    if(DEBUG) { cout << "DEBUG: Eval is " << eval << endl; }
+    
+    if(eval >= 1.1){
+        cout << "EVAL ERROR: Percentage greater than 100%" << endl;
+        return -1;
+    }
+
+    return eval;
+}
+
+/*
+float rate(DNA dog) {
     float eval = 0.0;
     #pragma omp parallel shared(eval)
     {
@@ -97,7 +119,7 @@ float best_fit(DNA dog) {
     }
 
     return eval;
-}
+}*/
 
 /***
  * eval_coat_length function
@@ -276,7 +298,6 @@ float eval_tail_color(string t_color) {
  * 
  * @returns float
  * @param long dna
- * NOT TESTED
  ***/
 float eval_t_len_and_shape(long dna){
     float eval = 0.0;
@@ -285,28 +306,31 @@ float eval_t_len_and_shape(long dna){
     int tail_length = 0xff & (dna >> 28);
     int tail_shape = 0x3 & (dna >> 26);
 
-    if(tail_length == 0){
-        if(DEBUG) { cout << "DEBUG: length returns 0.0" << endl; }
-        return eval;
-    }
+    //evaluate tail length:
     float length_inches = tail_length * .1;
-
     if(length_inches >= 4 && length_inches <= 6){
-        if(DEBUG) { cout << "DEBUG: length returns 0.05" << endl; }
         eval += 0.05;
+    } else if ( length_inches > 6 ) {
+        float diff = length_inches - 6;
+        float score = .05 - (.003 * diff);
+        if (score >= 0) {
+            //cout << "Score: " << score << endl;
+            eval += score;
+        }
+    } else {//if length_inces < 4
+        float diff = 4 - length_inches;
+        eval += .05 - (.003 * diff);
     }
 
     //evaluate the tail shape
     if(tail_shape == 0){
-        if(DEBUG) { cout << "DEBUG: shape returns 0.05" << endl; }
         eval += 0.05;
     }
-    else {
-        if(DEBUG) { cout << "DEBUG: shape returns 0.0" << endl; }
+    else if (tail_shape == 1 || tail_shape == 2) {
+        eval += 0.025;
     }
 
     return eval;
-
 }
 
 /***
@@ -319,7 +343,6 @@ float eval_t_len_and_shape(long dna){
  * 
  * @returns float
  * @param long dna
- * NOT TESTED
  ***/
 float eval_weight(long dna){
 
@@ -349,7 +372,6 @@ float eval_weight(long dna){
  * 
  * @returns float
  * @param long dna
- * NOT TESTED
  ***/
 float eval_pp_area(long dna){
     //snip dna segment:
@@ -381,7 +403,6 @@ float eval_pp_area(long dna){
  * 
  * @returns float
  * @param long dna
- * NOT TESTED
  ***/
 float eval_webbing(long dna){
     //snip dna segment:
@@ -403,7 +424,6 @@ float eval_webbing(long dna){
  * 
  * @returns float
  * @param long dna
- * NOT TESTED
  ***/
 float eval_temper(long dna){
     int temper = 0x3f & dna;
