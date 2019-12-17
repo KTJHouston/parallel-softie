@@ -11,22 +11,22 @@ using namespace std;
 
 int check_parents(vector<DNA> parents);
 int single_island_sim(int size, bool verbose);
-int multi_island_sim(int size, int n, int trade_freq, bool verbose);
+int multi_island_sim(int size, int n, int trade_freq);
 float multi_percent_softie(vector<Island> islands);
 
 int main(int argc, char** argv) {
     int num_sim = 500;
 
-    //run single sim 100 times:
-    cout << "Single sims:" << endl;
+    //run single sim 500 times:
+    std::cout << "Single sims:" << endl;
     for (int i = 0; i < num_sim; i++) {
-        int gen = single_island_sim(100, false);
+        int gen = single_island_sim(500, false);
     }
 
     //run multi sim once:
-    cout << "Multi sims:" << endl;
+    std::cout << "Multi sims:" << endl;
     for (int i = 0; i < num_sim; i++) {
-        int gen = multi_island_sim(100, 5, 5, false);
+        int gen = multi_island_sim(100, 5, 5);
     }
 }
 
@@ -68,8 +68,11 @@ int single_island_sim(int size, bool verbose) {
     //init island:
     Island island = Island(size);
     int gen_cnt = 0;
+    float ps = 0;
+    int milestones[2];
+    bool ms_done[] = {false, false};
 
-    while ( island.percent_softie() < .1 ) {
+    while ( ps < .5 ) {
         //find parents:
         vector<DNA> parents = island.find_parents();
 
@@ -81,6 +84,16 @@ int single_island_sim(int size, bool verbose) {
 
         //increase generation counter:
         gen_cnt++;
+
+        //check milestones:
+        ps = island.percent_softie();
+        if ( !ms_done[0] && ps > 0 ) {//if first softie
+            milestones[0] = gen_cnt;
+            ms_done[0] = true;
+        } else if( !ms_done[1] && ps > .1 ) {//if ten percent softies
+            milestones[1] = gen_cnt;
+            ms_done[1] = true;
+        }
 
         //print ratings:
         if ( verbose ) {
@@ -99,13 +112,15 @@ int single_island_sim(int size, bool verbose) {
 
     //print time to complete simulation:
     auto duration = std::chrono::duration_cast<std::chrono::microseconds>( t_end - t_start ).count();
-    //cout << "Single island speed: " << duration << " microseconds" << endl;
-    cout << gen_cnt << "," << duration << endl;
+
+    //print for csv:
+    //gen to first softie, gen to 10% softie, gen to 50% softie, time to 50% softie
+    std::cout << milestones[0] << "," << milestones[1] << "," << gen_cnt << "," << duration << endl;
 
     return gen_cnt;
 }//end single island sim
 
-int multi_island_sim(int size, int n, int trade_freq, bool verbose) {
+int multi_island_sim(int size, int n, int trade_freq) {
     //start timer:
     auto t_start = std::chrono::high_resolution_clock::now();
 
@@ -116,7 +131,11 @@ int multi_island_sim(int size, int n, int trade_freq, bool verbose) {
     }
     int gen_cnt = 0;
 
-    while ( multi_percent_softie(islands) < .1 ) {
+    float mps = 0;
+    int milestones[2];
+    bool ms_done[] = {false, false};
+
+    while ( multi_percent_softie(islands) < .5 ) {
         //find parents:
         vector<vector<DNA>> parents;
         for (int i = 0; i < islands.size(); i++) {//for each island
@@ -148,28 +167,26 @@ int multi_island_sim(int size, int n, int trade_freq, bool verbose) {
         //increase generation counter:
         gen_cnt++;
 
-        //print ratings:
-        /*
-        if ( verbose ) {
-            for (int i = 0; i < islands.size(); i++) {//for each island
-                cout << "Gen " << gen_cnt << endl;
-                for (int i = 0; i < parents.size(); i++) {
-                    cout << "Rating: " << rate(parents[i]) << endl;
-                cout << DNA::to_string(parents[i]) << endl << endl;
-                }
-                cout << "Softie Percent: " << island.percent_softie() << endl;
-                cout << endl;
-            }
-        }*/
+        //check milestones:
+        mps = multi_percent_softie(islands);
+        if ( !ms_done[0] && mps > 0 ) {//if first softie
+            milestones[0] = gen_cnt;
+            ms_done[0] = true;
+        } else if( !ms_done[1] && mps > .1 ) {//if ten percent softies
+            milestones[1] = gen_cnt;
+            ms_done[1] = true;
+        }
     }
 
     //end timer:
     auto t_end = std::chrono::high_resolution_clock::now();
 
-    //print time to complete simulation:
+    //calc time to complete simulation:
     auto duration = std::chrono::duration_cast<std::chrono::microseconds>( t_end - t_start ).count();
-    //cout << "Multi island speed: " << duration << " microseconds" << endl;
-    cout << gen_cnt << "," << duration << endl;
+
+    //print for csv:
+    //gen to first softie, gen to 10% softie, gen to 50% softie, time to 50% softie
+    std::cout << milestones[0] << "," << milestones[1] << "," << gen_cnt << "," << duration << endl;
 
     return gen_cnt;
 }//end multi island sim
