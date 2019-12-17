@@ -23,35 +23,63 @@ Island::Island(int size) {
  * which rate the closest to the softie.
  */
 vector<DNA> Island::find_parents() {
-    //take first two dogs as starting parents
-    vector<DNA> parents(2);
-    vector<float> parent_ratings(2);
-    for (int i = 0; i < parents.size(); i++) {
-        parents[i] = dogs[i];
-        parent_ratings[i] = rate(parents[i]);
+    //prep shared output:
+    vector<DNA> p(2);//parents to output
+    vector<float> pr(2);//parents rating
+    for (int i = 0; i < p.size(); i++) {
+        p[i] = dogs[i];
+        pr[i] = rate(p[i]);
     }
 
-    //identify lower of two parents:
-    int lower_index = parent_ratings[0] > parent_ratings[1];
+    #pragma omp parallel shared(dogs, p)
+    {
+        //take first two dogs as starting parents
+        vector<DNA> parents(2);
+        vector<float> parent_ratings(2);
+        for (int i = 0; i < parents.size(); i++) {
+            parents[i] = dogs[i];
+            parent_ratings[i] = rate(parents[i]);
+        }
 
-    //compare to other dogs on island:
-    for (int i = 2; i < dogs.size(); i++) {//iterate through dogs
-        //get current dogs rating:
-        float r = rate(dogs[i]);
+        //identify lower of two parents:
+        int lower_index = parent_ratings[0] > parent_ratings[1];
 
-        //compare current dog to lower parent:
-        if ( parent_ratings[lower_index] < r ) {//if current dog is better than the parent
-            //replace parent:
-            parents[lower_index] = dogs[i];
-            parent_ratings[lower_index] = r;
+        //compare to other dogs on island:
+        #pragma omp for nowait
+        for (int i = 2; i < dogs.size(); i++) {//iterate through dogs
+            //get current dogs rating:
+            float r = rate(dogs[i]);
 
-            //determine new lower parent:
-            lower_index = parent_ratings[0] > parent_ratings[1];
+            //compare current dog to lower parent:
+            if ( parent_ratings[lower_index] < r ) {//if current dog is better than the parent
+                //replace parent:
+                parents[lower_index] = dogs[i];
+                parent_ratings[lower_index] = r;
+
+                //determine new lower parent:
+                lower_index = parent_ratings[0] > parent_ratings[1];
+            }
+        }
+
+        //reduce to just two parents:
+        #pragma omp critical
+        for (int i = 0; i < p.size(); i++) {//for each old parent
+            for (int k = 0; k < parents.size(); k++) {//for each new parent
+                if ( parent_ratings[k] > pr[i] ) {//if new parent is better
+                    //replace old parent:
+                    p[i] = parents[k];
+                    pr[i] = parent_ratings[k];
+
+                    //remove new parent so it cannot be duplicated:
+                    parents.erase(parents.begin()+k);
+                    parent_ratings.erase(parent_ratings.begin()+k);
+                }
+            }
         }
     }
 
     //return best parents
-    return parents;
+    return p;
 }//end find_parents
 
 /**
